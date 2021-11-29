@@ -1,18 +1,36 @@
-import {StrictMode} from 'react';
-import ReactDOM from 'react-dom';
+import {ConfigProvider} from 'antd';
+import ruRU from 'antd/lib/locale/ru_RU';
+import moment from 'moment';
 
-import './index.css';
+import ReactDOM from 'react-dom';
+import {Provider as ReduxProvider} from 'react-redux';
+import {BrowserRouter} from 'react-router-dom';
+
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import {_SYSTEM} from './globals';
+import {logGreeting} from './libs/log';
+import validateMessages from './libs/validateMessages';
+import createStore from './store/store';
+
+import 'antd/dist/antd.css';
+
+moment.locale('ru');
+
+const formConfig = {
+    validateMessages,
+};
+
+const store = createStore();
+
+logGreeting(`👋🏻 Welcome to ${_SYSTEM}`);
 
 ReactDOM.render(
-    <StrictMode>
-        <App />
-    </StrictMode>,
-    document.getElementById('root'),
+    <ReduxProvider store={store}>
+        <ConfigProvider locale={ruRU} form={formConfig}>
+            <BrowserRouter>
+                <App />
+            </BrowserRouter>
+        </ConfigProvider>
+    </ReduxProvider>,
+    document.getElementById('app'),
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
