@@ -1,16 +1,24 @@
+import {FC, ReactNode} from 'react';
+
+// eslint-disable-next-line no-restricted-imports
 import {RouteObject} from 'react-router';
 
 import {ROLE} from '../store/account/types';
 
 export interface PageProps {
-    title?: string;
-    path?: RouteObject['path'];
+    title: string;
+    path: RouteObject['path'];
     child?: Array<RouteItem>;
 }
 
-export interface RouteItem extends RouteObject {
-    children?: Array<this>;
+export interface RouteWrapperProps extends Omit<PageProps, 'child' | 'path'> {
     free?: boolean;
+    restrictedWithAuth?: boolean;
     roles?: Array<ROLE>;
-    title?: string;
+}
+
+export interface RouteItem extends RouteWrapperProps, Omit<RouteObject, 'children'> {
+    element: FC<PageProps> | ReactNode;
+    children?: Array<this>;
+    navigation?: boolean;
 }

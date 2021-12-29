@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import {Col, Row} from 'antd';
 import {FC, memo} from 'react';
 
 import Logo from './Logo';
@@ -18,10 +19,14 @@ const HeaderContainer = styled.header`
 
 const Header: FC = memo((): JSX.Element | null => {
     return (
-        <HeaderContainer>
-            <Logo />
-            <Navbar />
-        </HeaderContainer>
+        <Row gutter={8}>
+            <Col span={24}>
+                <HeaderContainer>
+                    <Logo />
+                    <Navbar />
+                </HeaderContainer>
+            </Col>
+        </Row>
     );
 });
 

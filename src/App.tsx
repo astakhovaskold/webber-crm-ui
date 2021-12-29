@@ -1,8 +1,6 @@
 import {Global, css} from '@emotion/react';
-import {Col, Row} from 'antd';
 import {memo} from 'react';
 
-import {FullSize} from './components/containers';
 import Header from './components/layout/Header';
 import Router from './router/Router';
 
@@ -38,22 +36,15 @@ const globalStyle = css`
     }
 `;
 
+const isAuth = false;
+
 const App = memo(() => {
     return (
         <>
             <Global styles={globalStyle} />
-            <Row gutter={8}>
-                <Col span={24}>
-                    <Header />
-                </Col>
-            </Row>
-            <FullSize>
-                <Row gutter={8}>
-                    <Col span={24}>
-                        <Router />
-                    </Col>
-                </Row>
-            </FullSize>
+            {isAuth && <Header />}
+
+            <Router />
         </>
     );
 });
