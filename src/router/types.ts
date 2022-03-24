@@ -6,18 +6,18 @@ import {RouteObject} from 'react-router';
 import {ROLE} from '../store/account/types';
 
 export interface PageProps {
-    title: string;
-    path: RouteObject['path'];
+    title?: string;
+    path?: RouteObject['path'];
     child?: Array<RouteItem>;
 }
 
-export interface RouteWrapperProps extends Omit<PageProps, 'child' | 'path'> {
+export interface RouteProps extends Omit<PageProps, 'child' | 'path'> {
     free?: boolean;
     restrictedWithAuth?: boolean;
     roles?: Array<ROLE>;
 }
 
-export interface RouteItem extends RouteWrapperProps, Omit<RouteObject, 'children'> {
+export interface RouteItem extends RouteProps, Omit<RouteObject, 'children'> {
     element: FC<PageProps> | ReactNode;
     children?: Array<this>;
     navigation?: boolean;

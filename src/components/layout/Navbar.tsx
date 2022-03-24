@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import {FC, Fragment, memo} from 'react';
+import {FC, memo} from 'react';
 import {NavLink} from 'react-router-dom';
 
 import routes from '../../router/routes';
@@ -40,8 +40,14 @@ const Nav = styled.nav`
 const Navbar: FC = memo(() => {
     return (
         <Nav>
-            {routes.map(({path, title}) => (
-                <Fragment key={path || title}>{path && <NavLinkStyled to={path}>{title}</NavLinkStyled>}</Fragment>
+            {routes.map(({path, title, navigation = true}) => (
+                <>
+                    {path && navigation && (
+                        <NavLinkStyled key={path || title} to={path}>
+                            {title}
+                        </NavLinkStyled>
+                    )}
+                </>
             ))}
         </Nav>
     );

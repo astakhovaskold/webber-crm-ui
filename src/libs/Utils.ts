@@ -6,7 +6,7 @@ type exception = string | AxiosError<unknown> | Error;
 
 export default class Utils {
     static hasAccess(account?: AccountDTO, roles: Array<ROLE> = []): boolean {
-        return roles.length === 0 || (account ? roles.includes(account.user.role) : false);
+        return roles.length === 0 || (account?.user.role ? roles.includes(account.user.role) : false);
     }
 
     static textError(exp: exception): string {

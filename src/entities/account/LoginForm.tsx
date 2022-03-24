@@ -1,13 +1,15 @@
 import {LockOutlined, UserOutlined} from '@ant-design/icons';
 import {Button, Card, Form, Input} from 'antd';
 
-import {AxiosBasicCredentials} from 'axios';
+import axios, {AxiosBasicCredentials} from 'axios';
 import {FC, memo, useCallback} from 'react';
 
 import {useDispatch} from 'react-redux';
 
+import API from '../../libs/API';
 import {validateMessagesSimple} from '../../libs/validateMessages';
-import {auth} from '../../store/account/actions';
+import {login} from '../../store/account/actions';
+import {AccountDTO} from '../../store/account/types';
 
 const {Item} = Form;
 const {Password} = Input;
@@ -17,7 +19,21 @@ const LoginForm: FC = memo(() => {
 
     const submit = useCallback(
         (data: AxiosBasicCredentials) => {
-            dispatch(auth(data));
+            axios
+                .post<AccountDTO>(API.auth('login'), data, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+                .then(res => {
+                    const account = res.data;
+                    const {access_token, refresh_token} = account;
+
+                    localStorage.setItem('access_token', access_token);
+                    localStorage.setItem('refresh_token', refresh_token);
+
+                    dispatch(login(account));
+                });
         },
         [dispatch],
     );
@@ -35,12 +51,7 @@ const LoginForm: FC = memo(() => {
                 </Item>
 
                 <Item name="password" rules={[{required: true}]}>
-                    <Password
-                        prefix={<LockOutlined />}
-                        placeholder="Пароль"
-                        size="large"
-                        autoComplete="current-password"
-                    />
+                    <Password prefix={<LockOutlined />} placeholder="Пароль" size="large" autoComplete="password" />
                 </Item>
 
                 <Button htmlType="submit" type="primary" block>

@@ -1,13 +1,15 @@
 import {Global, css} from '@emotion/react';
 import {memo} from 'react';
 
+import {Outlet} from 'react-router-dom';
+
 import Header from './components/layout/Header';
 import Router from './router/Router';
 
 const globalStyle = css`
     :root {
         --main-color: #fff;
-        --color-dark: #0d6efd;
+        --color-dark: #001529;
         --color-text-dark: #000;
     }
 
@@ -36,7 +38,7 @@ const globalStyle = css`
     }
 `;
 
-const isAuth = false;
+const isAuth = true;
 
 const App = memo(() => {
     return (
@@ -45,6 +47,7 @@ const App = memo(() => {
             {isAuth && <Header />}
 
             <Router />
+            <Outlet />
         </>
     );
 });

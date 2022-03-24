@@ -1,4 +1,4 @@
-import {UserDTO} from '../entities/user/types';
+import {UserDTO} from '../store/account/types';
 
 type chunks = Array<unknown>;
 
@@ -6,8 +6,12 @@ export default class API {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     private constructor() {}
 
+    static get base(): string {
+        return 'http://localhost:8000';
+    }
+
     static get app(): string {
-        return '/api/';
+        return `${this.base}`;
     }
 
     protected static joinChunks(...chunks: chunks): string {
@@ -24,6 +28,6 @@ export default class API {
     static user(id: UserDTO['id']): string;
     static user(url: 'roles'): string;
     static user(...chunks: chunks) {
-        return `${this.app}/user${this.joinChunks(...chunks)}`;
+        return `${this.app}user${this.joinChunks(...chunks)}`;
     }
 }

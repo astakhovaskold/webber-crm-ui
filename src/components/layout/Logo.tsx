@@ -68,11 +68,7 @@ const Logo: FC<LogoProps> = memo(({dark = false}) => {
         <Container dark={dark}>
             <Title data-postfix="CRM">WEBBER</Title>
 
-            <Title>
-                СИСТЕМА УЧЁТА
-                <br />
-                ДЛЯ ФРИЛАНСЕРОВ
-            </Title>
+            <Title>FREELANCE</Title>
         </Container>
     );
 });

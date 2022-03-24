@@ -1,6 +1,6 @@
 import {AxiosBasicCredentials} from 'axios';
 
-import {UserDTO} from '../../entities/user/types';
+import {Common} from '../../../typings/common';
 
 export enum TYPES {
     LOGIN = 'LOGIN',
@@ -19,6 +19,12 @@ export enum ROLE {
 export interface AccountState {
     readonly account?: AccountDTO;
     readonly loggedOut: boolean;
+}
+
+export interface UserDTO extends Common {
+    username: string;
+    email: string;
+    role?: ROLE;
 }
 
 export interface AccountDTO {
