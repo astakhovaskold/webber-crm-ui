@@ -46,7 +46,7 @@ module.exports = {
             },
             {
                 selector: 'typeLike',
-                format: ['camelCase'],
+                format: ['PascalCase', 'camelCase'],
             },
         ],
         '@typescript-eslint/no-unused-vars': [

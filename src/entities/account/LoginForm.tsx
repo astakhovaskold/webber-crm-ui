@@ -1,41 +1,53 @@
 import {LockOutlined, UserOutlined} from '@ant-design/icons';
 import {Button, Card, Form, Input} from 'antd';
 
-import axios, {AxiosBasicCredentials} from 'axios';
+import axios, {AxiosResponse} from 'axios';
 import {FC, memo, useCallback} from 'react';
 
+import {useMutation} from 'react-query';
 import {useDispatch} from 'react-redux';
+
+import {useNavigate} from 'react-router-dom';
 
 import API from '../../libs/API';
 import {validateMessagesSimple} from '../../libs/validateMessages';
 import {login} from '../../store/account/actions';
-import {AccountDTO} from '../../store/account/types';
+import {AccountDTO, PasswordData, UserDTO} from '../../store/account/types';
 
 const {Item} = Form;
 const {Password} = Input;
 
+interface LoginProps {
+    username: UserDTO['username'] | UserDTO['email'];
+    password: PasswordData['password'];
+}
+
 const LoginForm: FC = memo(() => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const submit = useCallback(
-        (data: AxiosBasicCredentials) => {
-            axios
-                .post<AccountDTO>(API.auth('login'), data, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                })
-                .then(res => {
-                    const account = res.data;
-                    const {access_token, refresh_token} = account;
+    const exec = useCallback(async (data: LoginProps) => {
+        const {data: account} = await axios.post<unknown, AxiosResponse<AccountDTO>>(API.auth('login'), data);
+        return account;
+    }, []);
 
-                    localStorage.setItem('access_token', access_token);
-                    localStorage.setItem('refresh_token', refresh_token);
+    const {mutate} = useMutation(exec, {
+        onSuccess: account => {
+            const {access_token, refresh_token} = account;
 
-                    dispatch(login(account));
-                });
+            localStorage.setItem('access_token', access_token);
+            localStorage.setItem('refresh_token', refresh_token);
+
+            dispatch(login(account));
+            navigate('/');
         },
-        [dispatch],
+    });
+
+    const submit = useCallback(
+        data => {
+            mutate(data);
+        },
+        [mutate],
     );
 
     return (

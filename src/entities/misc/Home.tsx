@@ -5,6 +5,7 @@ import {memo, FC, useEffect} from 'react';
 
 import {Link, useNavigate} from 'react-router-dom';
 
+import useAuth from '../../hooks/useAuth';
 import {PageProps} from '../../router/types';
 
 const {Content, Footer} = Layout;
@@ -28,16 +29,16 @@ const randomName = () => {
 
 const CardData = new Array(5).fill({id: nanoid(), name: randomName(), badge: Math.floor(Math.random() * 100)});
 
-const isAuth = true;
-
 const Home: FC<PageProps> = memo((): JSX.Element | null => {
     const navigate = useNavigate();
+
+    const isAuth = useAuth();
 
     useEffect(() => {
         if (!isAuth) {
             navigate('/login');
         }
-    }, [navigate]);
+    }, [isAuth, navigate]);
 
     return (
         <Layout>

@@ -3,6 +3,7 @@ import ruRU from 'antd/lib/locale/ru_RU';
 import moment from 'moment';
 
 import ReactDOM from 'react-dom';
+import {QueryClient, QueryClientProvider} from 'react-query';
 import {Provider as ReduxProvider} from 'react-redux';
 import {BrowserRouter} from 'react-router-dom';
 
@@ -20,17 +21,21 @@ const formConfig = {
     validateMessages,
 };
 
+const queryClient = new QueryClient();
+
 const store = createStore();
 
 logGreeting(`👋🏻 Welcome to ${_SYSTEM}`);
 
 ReactDOM.render(
-    <ReduxProvider store={store}>
-        <ConfigProvider locale={ruRU} form={formConfig}>
-            <BrowserRouter>
-                <App />
-            </BrowserRouter>
-        </ConfigProvider>
-    </ReduxProvider>,
+    <QueryClientProvider client={queryClient}>
+        <ReduxProvider store={store}>
+            <ConfigProvider locale={ruRU} form={formConfig}>
+                <BrowserRouter>
+                    <App />
+                </BrowserRouter>
+            </ConfigProvider>
+        </ReduxProvider>
+    </QueryClientProvider>,
     document.getElementById('app'),
 );

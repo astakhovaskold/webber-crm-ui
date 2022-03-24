@@ -4,6 +4,7 @@ import {memo} from 'react';
 import {Outlet} from 'react-router-dom';
 
 import Header from './components/layout/Header';
+import useAuth from './hooks/useAuth';
 import Router from './router/Router';
 
 const globalStyle = css`
@@ -38,9 +39,9 @@ const globalStyle = css`
     }
 `;
 
-const isAuth = true;
-
 const App = memo(() => {
+    const isAuth = useAuth();
+
     return (
         <>
             <Global styles={globalStyle} />

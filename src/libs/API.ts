@@ -7,7 +7,7 @@ export default class API {
     private constructor() {}
 
     static get base(): string {
-        return 'http://localhost:8000';
+        return typeof process.env.API === 'string' ? process.env.API : 'https://webber-crm.herokuapp.com';
     }
 
     static get app(): string {
