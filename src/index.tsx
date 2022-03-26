@@ -8,7 +8,7 @@ import {Provider as ReduxProvider} from 'react-redux';
 import {BrowserRouter} from 'react-router-dom';
 
 import App from './App';
-import {_SYSTEM} from './globals';
+import {_SYSTEM_NAME} from './globals';
 import {logGreeting} from './libs/log';
 import validateMessages from './libs/validateMessages';
 import createStore from './store/store';
@@ -25,7 +25,7 @@ const queryClient = new QueryClient();
 
 const store = createStore();
 
-logGreeting(`👋🏻 Welcome to ${_SYSTEM}`);
+logGreeting(`👋🏻 Welcome to ${_SYSTEM_NAME}`);
 
 ReactDOM.render(
     <QueryClientProvider client={queryClient}>

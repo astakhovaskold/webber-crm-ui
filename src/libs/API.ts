@@ -1,3 +1,4 @@
+import {_API_URL} from '../globals';
 import {UserDTO} from '../store/account/types';
 
 type chunks = Array<unknown>;
@@ -7,11 +8,11 @@ export default class API {
     private constructor() {}
 
     static get base(): string {
-        return typeof process.env.API === 'string' ? process.env.API : 'https://webber-crm.herokuapp.com';
+        return typeof process.env.API_URL !== 'undefined' ? process.env.API_URL : _API_URL;
     }
 
     static get app(): string {
-        return `${this.base}`;
+        return `${this.base}/api/v1`;
     }
 
     protected static joinChunks(...chunks: chunks): string {
@@ -19,15 +20,15 @@ export default class API {
         return suffix.length > 0 ? `/${suffix}` : '';
     }
 
-    static auth(url: 'login' | 'logout' | 'reset' | 'password'): string;
+    static auth(url: 'login' | 'logout' | 'registration' | 'reset' | 'password'): string;
     static auth(...chunks: chunks) {
         return `${this.app}/auth${this.joinChunks(...chunks)}`;
     }
 
-    static user(): string;
-    static user(id: UserDTO['id']): string;
-    static user(url: 'roles'): string;
-    static user(...chunks: chunks) {
-        return `${this.app}user${this.joinChunks(...chunks)}`;
+    static users(): string;
+    static users(id: UserDTO['id']): string;
+    static users(url: 'roles'): string;
+    static users(...chunks: chunks) {
+        return `${this.app}users${this.joinChunks(...chunks)}`;
     }
 }

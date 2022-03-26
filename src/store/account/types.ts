@@ -1,8 +1,7 @@
-import {AxiosBasicCredentials} from 'axios';
-
 import {Common} from '../../../typings/common';
 
 export enum TYPES {
+    REGISTER = 'REGISTER',
     LOGIN = 'LOGIN',
     LOGOUT = 'LOGOUT',
     SET_AUTH = 'SET_AUTH',
@@ -21,26 +20,48 @@ export interface AccountState {
     readonly loggedOut: boolean;
 }
 
+interface UserName {
+    first: string;
+    last: string;
+    middle: string;
+}
+
+export interface JobDTO extends Common {
+    name: string;
+}
+
 export interface UserDTO extends Common {
-    username: string;
+    name: UserName;
     email: string;
+    salary: number;
+    job: JobDTO;
+    is_active: boolean;
     role?: ROLE;
 }
 
 export interface AccountDTO {
     user: UserDTO;
-    access_token: string;
-    refresh_token: string;
+    accessToken: string;
+    refreshToken: string;
 }
 
-export interface PasswordData {
-    password?: string;
-    confirmPassword?: string;
+export interface AuthData {
+    email: UserDTO['email'];
+    password: string;
+}
+
+export interface LogoutData {
+    quiet?: boolean;
 }
 
 export interface AuthAction {
     type: TYPES.AUTH;
-    data: AxiosBasicCredentials;
+    data: AuthData;
+}
+
+export interface RegisterAction {
+    type: TYPES.REGISTER;
+    data: AuthData;
 }
 
 export interface LoginAction {
@@ -50,6 +71,7 @@ export interface LoginAction {
 
 export interface LogoutAction {
     type: TYPES.LOGOUT;
+    data?: LogoutData;
 }
 
 export interface SetAuthAction {

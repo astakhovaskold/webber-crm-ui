@@ -5,21 +5,21 @@ import {Link} from 'react-router-dom';
 import {AuthFormWrapper, FullSize} from '../../components/containers';
 import {PageProps} from '../../router/types';
 
-import LoginForm from './LoginForm';
+import RegistrationForm from './RegistrationForm';
 
-const LoginPage: FC<PageProps> = memo(() => {
+const RegistrationPage: FC<PageProps> = memo(() => {
     return (
         <FullSize>
             <AuthFormWrapper>
-                <LoginForm />
+                <RegistrationForm />
 
                 <div>
-                    Нет аккаунта?&nbsp;
-                    <Link to="/register">Зарегистрироваться</Link>
+                    Уже зарегистрированы?&nbsp;
+                    <Link to="/login">Войти</Link>
                 </div>
             </AuthFormWrapper>
         </FullSize>
     );
 });
 
-export default LoginPage;
+export default RegistrationPage;

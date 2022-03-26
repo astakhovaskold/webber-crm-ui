@@ -4,7 +4,7 @@ import {NavLink} from 'react-router-dom';
 
 import routes from '../../router/routes';
 
-const NavLinkStyled = styled(NavLink)`
+const NavItem = styled(NavLink)`
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -43,9 +43,9 @@ const Navbar: FC = memo(() => {
             {routes.map(({path, title, navigation = true}) => (
                 <>
                     {path && navigation && (
-                        <NavLinkStyled key={path || title} to={path}>
+                        <NavItem key={title} to={path}>
                             {title}
-                        </NavLinkStyled>
+                        </NavItem>
                     )}
                 </>
             ))}

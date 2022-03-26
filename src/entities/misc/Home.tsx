@@ -1,20 +1,15 @@
-import styled from '@emotion/styled';
 import {Card, Col, Layout, Row} from 'antd';
-import {nanoid} from 'nanoid';
 import {memo, FC, useEffect} from 'react';
 
 import {Link, useNavigate} from 'react-router-dom';
 
+import {v4 as uuid} from 'uuid';
+
+import {Container} from '../../components/containers';
 import useAuth from '../../hooks/useAuth';
 import {PageProps} from '../../router/types';
 
 const {Content, Footer} = Layout;
-
-const Container = styled.div`
-    width: 1200px;
-    max-width: 100%;
-    margin: 0 auto;
-`;
 
 const styledContent = {
     paddingTop: 60,
@@ -27,7 +22,11 @@ const randomName = () => {
         .substr(0, 5);
 };
 
-const CardData = new Array(5).fill({id: nanoid(), name: randomName(), badge: Math.floor(Math.random() * 100)});
+const CardData = Array.from({length: 5}, () => ({
+    id: uuid(),
+    name: randomName(),
+    badge: Math.floor(Math.random() * 100),
+}));
 
 const Home: FC<PageProps> = memo((): JSX.Element | null => {
     const navigate = useNavigate();

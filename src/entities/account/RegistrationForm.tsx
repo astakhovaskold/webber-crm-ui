@@ -7,7 +7,7 @@ import {useDispatch} from 'react-redux';
 
 import useStateRequest from '../../hooks/useStateRequest';
 import {validateMessagesSimple} from '../../libs/validateMessages';
-import {auth} from '../../store/account/actions';
+import {register} from '../../store/account/actions';
 import {AuthData, TYPES} from '../../store/account/types';
 
 const {Item} = Form;
@@ -20,14 +20,14 @@ const LoginForm: FC = memo(() => {
 
     const submit = useCallback(
         (data: AuthData) => {
-            dispatch(auth(data));
+            dispatch(register(data));
         },
         [dispatch],
     );
 
     return (
         <Card>
-            <h2>Вход</h2>
+            <h2>Регистрация</h2>
 
             <Form layout="vertical" colon={false} onFinish={submit} validateMessages={validateMessagesSimple}>
                 <Item name="email" rules={[{required: true}]}>
@@ -39,7 +39,7 @@ const LoginForm: FC = memo(() => {
                 </Item>
 
                 <Button htmlType="submit" type="primary" block loading={request}>
-                    Войти
+                    Зарегистрироваться
                 </Button>
             </Form>
         </Card>

@@ -15,3 +15,26 @@ export const FullSize = styled.div`
 export const FullWidthSpace: FC<SpaceProps> = styled(Space)`
     width: 100%;
 `;
+
+export const Container = styled.div`
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+`;
+
+export const ContainerCentered = styled.div`
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+`;
+
+export const AuthFormWrapper = styled.div`
+    width: 450px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+`;

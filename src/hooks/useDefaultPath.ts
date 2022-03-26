@@ -12,11 +12,10 @@ function useDefaultPath(): string {
 
         switch (account.user.role) {
             case ROLE.ADMIN:
-            case ROLE.SECURITY_ADMIN:
-                return '/admin';
+                return '/';
 
             default:
-                return '/monitoring';
+                return '/tasks';
         }
     }, [account]);
 

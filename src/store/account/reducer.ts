@@ -1,18 +1,14 @@
 import axios from 'axios';
 
-import {v4 as uuid} from 'uuid';
-
 import {AccountState, TYPES, AccountDTO, actions} from './types';
 
-const _UNIQUE_STATE = uuid();
-
 export function getAccountFromLS(): AccountDTO | undefined {
-    const storeName = `${_UNIQUE_STATE}_account`;
+    const storeName = `account`;
     const storedAccount = localStorage.getItem(storeName);
     if (storedAccount) {
         try {
             const account: AccountDTO = JSON.parse(storedAccount);
-            axios.defaults.headers.common.Authorization = `Bearer ${account.access_token}`;
+            axios.defaults.headers.common.Authorization = `Bearer ${account.accessToken}`;
             return account;
         } catch (e) {
             localStorage.removeItem(storeName);
