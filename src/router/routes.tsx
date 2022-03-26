@@ -8,15 +8,15 @@ const LoginPage = lazy(() => import('../entities/account/LoginPage'));
 const RegistrationPage = lazy(() => import('../entities/account/RegistrationPage'));
 const Home = lazy(() => import('../entities/misc/Home'));
 const NotFound = lazy(() => import('../components/errors/NotFound'));
+const ChangePasswordPage = lazy(() => import('../entities/account/ChangePasswordPage'));
 
 const all: Array<RouteItem> = [
-    {path: '/', element: Home, title: 'Главная'},
+    {path: '/', element: Home, title: 'Главная', navigation: true},
     {
         path: 'login',
         element: LoginPage,
         title: 'Авторизация',
         free: true,
-        navigation: false,
         restrictedWithAuth: true,
     },
     {
@@ -24,10 +24,14 @@ const all: Array<RouteItem> = [
         element: RegistrationPage,
         title: 'Регистрация',
         free: true,
-        navigation: false,
         restrictedWithAuth: true,
     },
-    {path: '*', element: NotFound, title: ERROR_404, free: true, navigation: false},
+    {
+        path: 'change-password',
+        element: ChangePasswordPage,
+        title: 'Смена пароля',
+    },
+    {path: '*', element: NotFound, title: ERROR_404, free: true},
 ];
 
 export default all;

@@ -40,7 +40,7 @@ const Nav = styled.nav`
 const Navbar: FC = memo(() => {
     return (
         <Nav>
-            {routes.map(({path, title, navigation = true}) => (
+            {routes.map(({path, title, navigation = false}) => (
                 <>
                     {path && navigation && (
                         <NavItem key={title} to={path}>

@@ -54,6 +54,11 @@ export interface LogoutData {
     quiet?: boolean;
 }
 
+export interface PasswordData {
+    password: string;
+    confirmPassword: string;
+}
+
 export interface AuthAction {
     type: TYPES.AUTH;
     data: AuthData;

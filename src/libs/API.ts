@@ -12,7 +12,7 @@ export default class API {
     }
 
     static get app(): string {
-        return `${this.base}/api/v1`;
+        return `${this.base}/api/v1/`;
     }
 
     protected static joinChunks(...chunks: chunks): string {
@@ -26,7 +26,7 @@ export default class API {
     }
 
     static users(): string;
-    static users(id: UserDTO['id']): string;
+    static users(id: UserDTO['id'], command?: 'change-password'): string;
     static users(url: 'roles'): string;
     static users(...chunks: chunks) {
         return `${this.app}users${this.joinChunks(...chunks)}`;
