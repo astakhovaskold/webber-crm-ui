@@ -2,6 +2,8 @@ import styled from '@emotion/styled';
 import {Col, Row} from 'antd';
 import {FC, memo} from 'react';
 
+import ProfileButton from '../../entities/account/ProfileButton';
+
 import Logo from './Logo';
 import Navbar from './Navbar';
 
@@ -24,6 +26,7 @@ const Header: FC = memo((): JSX.Element | null => {
                 <HeaderContainer>
                     <Logo />
                     <Navbar />
+                    <ProfileButton />
                 </HeaderContainer>
             </Col>
         </Row>
