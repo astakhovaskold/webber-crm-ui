@@ -24,6 +24,11 @@ export default class API {
         return suffix.length > 0 ? `/${suffix}` : '';
     }
 
+    static reset(url: 'reset-password' | 'new-password'): string;
+    static reset(...chunks: chunks) {
+        return `${this.app}reset${this.joinChunks(...chunks)}`;
+    }
+
     static dashboard(url: 'cards'): string;
     static dashboard(...chunks: chunks) {
         return `${this.app}dashboard${this.joinChunks(...chunks)}`;

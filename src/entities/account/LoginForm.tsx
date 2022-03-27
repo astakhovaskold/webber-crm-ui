@@ -1,9 +1,12 @@
 import {LockOutlined, UserOutlined} from '@ant-design/icons';
+import styled from '@emotion/styled';
 import {Button, Card, Form, Input} from 'antd';
 
 import {FC, memo, useCallback} from 'react';
 
 import {useDispatch} from 'react-redux';
+
+import {Link} from 'react-router-dom';
 
 import useStateRequest from '../../hooks/useStateRequest';
 import {validateMessagesSimple} from '../../libs/validateMessages';
@@ -12,6 +15,10 @@ import {AuthData, TYPES} from '../../store/account/types';
 
 const {Item} = Form;
 const {Password} = Input;
+
+const Info = styled.div`
+    padding-top: 1rem;
+`;
 
 const LoginForm: FC = memo(() => {
     const dispatch = useDispatch();
@@ -42,6 +49,11 @@ const LoginForm: FC = memo(() => {
                     Войти
                 </Button>
             </Form>
+
+            <Info>
+                Забыли пароль?&nbsp;
+                <Link to="/reset-password">Сбросить пароль</Link>
+            </Info>
         </Card>
     );
 });

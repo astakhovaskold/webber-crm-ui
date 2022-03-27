@@ -1,3 +1,4 @@
+import {Space} from 'antd';
 import {FC, memo} from 'react';
 
 import {Link} from 'react-router-dom';
@@ -10,14 +11,16 @@ import LoginForm from './LoginForm';
 const LoginPage: FC<PageProps> = memo(() => {
     return (
         <FullSize>
-            <AuthFormWrapper>
-                <LoginForm />
+            <Space size="large" direction="vertical" align="center">
+                <AuthFormWrapper>
+                    <LoginForm />
+                </AuthFormWrapper>
 
                 <div>
                     Нет аккаунта?&nbsp;
                     <Link to="/register">Зарегистрироваться</Link>
                 </div>
-            </AuthFormWrapper>
+            </Space>
         </FullSize>
     );
 });
