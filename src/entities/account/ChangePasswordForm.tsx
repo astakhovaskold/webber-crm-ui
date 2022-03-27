@@ -1,11 +1,11 @@
 import {Button, Card, Form, Input, message} from 'antd';
 import {RuleRender} from 'antd/es/form';
-import axios from 'axios';
 import {FC, memo, useCallback} from 'react';
 
 import {useMutation} from 'react-query';
 
 import useAccount from '../../hooks/useAccount';
+import $api from '../../http';
 import API from '../../libs/API';
 import {PasswordData} from '../../store/account/types';
 
@@ -17,7 +17,7 @@ const ChangePasswordForm: FC = memo(() => {
 
     const {mutate, isLoading} = useMutation(
         (password: Pick<PasswordData, 'password'>) => {
-            return axios.patch(account ? API.users(account?.user.id, 'change-password') : '', password);
+            return $api.patch(account ? API.users(account?.user.id, 'change-password') : '', password);
         },
         {
             onSuccess: () => {

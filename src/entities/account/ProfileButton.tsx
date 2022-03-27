@@ -59,7 +59,7 @@ const ProfileButton: FC = memo(() => {
                         <Avatar shape="square" icon={<UserOutlined />} />
 
                         <UserInfo>
-                            <Text>{_DEFAULT_NAME}</Text>
+                            <Text>{account?.user.name.first ?? _DEFAULT_NAME}</Text>
 
                             <br />
 

@@ -11,8 +11,12 @@ export default class API {
         return typeof process.env.API_URL !== 'undefined' ? process.env.API_URL : _API_URL;
     }
 
+    static get prefix(): string {
+        return '/api/v1/';
+    }
+
     static get app(): string {
-        return `${this.base}/api/v1/`;
+        return `${this.base}${this.prefix}`;
     }
 
     protected static joinChunks(...chunks: chunks): string {
@@ -20,9 +24,14 @@ export default class API {
         return suffix.length > 0 ? `/${suffix}` : '';
     }
 
-    static auth(url: 'login' | 'logout' | 'registration' | 'reset' | 'password'): string;
+    static dashboard(url: 'cards'): string;
+    static dashboard(...chunks: chunks) {
+        return `${this.app}dashboard${this.joinChunks(...chunks)}`;
+    }
+
+    static auth(url: 'login' | 'logout' | 'registration' | 'refresh'): string;
     static auth(...chunks: chunks) {
-        return `${this.app}/auth${this.joinChunks(...chunks)}`;
+        return `${this.app}auth${this.joinChunks(...chunks)}`;
     }
 
     static users(): string;

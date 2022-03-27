@@ -16,6 +16,7 @@ export enum ROLE {
 }
 
 export interface AccountState {
+    readonly token?: AccountDTO['accessToken'];
     readonly account?: AccountDTO;
     readonly loggedOut: boolean;
 }

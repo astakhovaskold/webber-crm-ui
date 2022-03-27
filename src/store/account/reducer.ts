@@ -1,17 +1,18 @@
 import axios from 'axios';
 
+import {_STORAGE_NAME} from '../../globals';
+
 import {AccountState, TYPES, AccountDTO, actions} from './types';
 
 export function getAccountFromLS(): AccountDTO | undefined {
-    const storeName = `account`;
-    const storedAccount = localStorage.getItem(storeName);
+    const storedAccount = localStorage.getItem(_STORAGE_NAME);
     if (storedAccount) {
         try {
             const account: AccountDTO = JSON.parse(storedAccount);
             axios.defaults.headers.common.Authorization = `Bearer ${account.accessToken}`;
             return account;
         } catch (e) {
-            localStorage.removeItem(storeName);
+            localStorage.removeItem(_STORAGE_NAME);
         }
     }
     return undefined;

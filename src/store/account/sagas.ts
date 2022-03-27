@@ -6,6 +6,8 @@ import axios, {AxiosResponse} from 'axios';
 import {SagaIterator} from 'redux-saga';
 import {call, Effect, put, putResolve, takeEvery, takeLeading} from 'redux-saga/effects';
 
+import {_STORAGE_NAME, _STORAGE_TOKEN} from '../../globals';
+import $api from '../../http';
 import API from '../../libs/API';
 
 import {fetching} from '../helper/helper';
@@ -14,7 +16,6 @@ import {login} from './actions';
 import {AccountDTO, AuthAction, LoginAction, LogoutAction, RegisterAction, SetAuthAction, TYPES} from './types';
 
 function* setAuthData(account: AccountDTO) {
-    axios.defaults.headers.common.Authorization = `Bearer ${account.accessToken}`;
     yield putResolve(login(account));
 }
 
@@ -23,7 +24,7 @@ function* requestLogin(action: AuthAction): SagaIterator {
 
     try {
         yield put(fetching(TYPES.AUTH));
-        const {data: account}: AxiosResponse<AccountDTO> = yield call(axios.post, API.auth('login'), data);
+        const {data: account}: AxiosResponse<AccountDTO> = yield call($api.post, API.auth('login'), data);
         yield* setAuthData(account);
     } catch (e) {
         //
@@ -37,7 +38,7 @@ function* requestRegister(action: RegisterAction): SagaIterator {
 
     try {
         yield put(fetching(TYPES.REGISTER));
-        const {data: account}: AxiosResponse<AccountDTO> = yield call(axios.post, API.auth('registration'), data);
+        const {data: account}: AxiosResponse<AccountDTO> = yield call($api.post, API.auth('registration'), data);
         yield* setAuthData(account);
     } catch (e) {
         //
@@ -47,15 +48,15 @@ function* requestRegister(action: RegisterAction): SagaIterator {
 }
 
 function* updateStorage(action: LoginAction | LogoutAction): SagaIterator {
-    const storeName = 'account';
-
     switch (action.type) {
         case TYPES.LOGIN:
-            localStorage.setItem(storeName, JSON.stringify(action.data));
+            localStorage.setItem(_STORAGE_TOKEN, action.data.accessToken);
+            localStorage.setItem(_STORAGE_NAME, JSON.stringify(action.data));
             break;
 
         case TYPES.LOGOUT:
-            localStorage.removeItem(storeName);
+            localStorage.removeItem(_STORAGE_TOKEN);
+            localStorage.removeItem(_STORAGE_NAME);
             break;
     }
 }
@@ -64,7 +65,7 @@ function* requestLogout({data}: LogoutAction): SagaIterator {
     const quiet = data?.quiet ?? false;
     try {
         if (!quiet) {
-            yield call(axios.post, API.auth('logout'), {});
+            yield call($api.post, API.auth('logout'), {});
         }
     } catch (e) {
         // noop
