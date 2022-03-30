@@ -2,7 +2,7 @@ import {message} from 'antd';
 import axios, {AxiosResponse} from 'axios';
 
 import {ErrorHandler} from '../../typings/common';
-import {_STORAGE_NAME, _STORAGE_TOKEN} from '../globals';
+import {_STORAGE_TOKEN} from '../globals';
 import API from '../libs/API';
 import {AccountDTO} from '../store/account/types';
 
@@ -24,15 +24,17 @@ $api.interceptors.response.use(
         const currentRequest = error.config;
         const currentResponse: AxiosResponse<ErrorHandler> = error.response;
 
-        if (error.response.status === 401 && error.config && !error.config._isRetry) {
+        if (currentResponse.status === 401 && currentRequest && !currentRequest._isRetry) {
             currentRequest._isRetry = true;
             try {
                 const response = await axios.get<AccountDTO>(API.auth('refresh'), {withCredentials: true});
                 localStorage.setItem(_STORAGE_TOKEN, response.data.accessToken);
                 return await $api.request(currentRequest);
             } catch (e) {
-                localStorage.removeItem(_STORAGE_NAME);
                 message.error('Пользователь не авторизован');
+
+                // @ts-ignore
+                window.location = '/login';
             }
         }
 
