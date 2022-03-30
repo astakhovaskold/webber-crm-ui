@@ -2,6 +2,7 @@ import {lazy} from 'react';
 
 import {ERROR_404} from '../libs/text';
 
+import userSection from './sections/userSection';
 import {RouteItem} from './types';
 
 const LoginPage = lazy(() => import('../entities/account/LoginPage'));
@@ -48,6 +49,7 @@ const all: Array<RouteItem> = [
         restrictedWithAuth: true,
     },
     {path: '*', element: NotFound, title: ERROR_404, free: true},
+    userSection,
 ];
 
 export default all;

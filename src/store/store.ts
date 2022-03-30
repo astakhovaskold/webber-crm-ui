@@ -5,6 +5,7 @@ import createSagaMiddleware, {SagaMiddleware} from 'redux-saga';
 import {logApp, logError} from '../libs/log';
 
 import {accountReducer} from './account/reducer';
+import {paginationReducer} from './pagination/reducer';
 import rootSaga from './rootSaga';
 
 let t = 0;
@@ -27,6 +28,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer: Reducer = combineReducers({
     account: accountReducer,
+    pagination: paginationReducer,
 });
 
 export default (initialState = {}) => {

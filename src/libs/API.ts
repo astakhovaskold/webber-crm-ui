@@ -1,3 +1,4 @@
+import {TaskDTO} from '../entities/tasks/types';
 import {_API_URL} from '../globals';
 import {UserDTO} from '../store/account/types';
 
@@ -44,5 +45,11 @@ export default class API {
     static users(url: 'roles'): string;
     static users(...chunks: chunks) {
         return `${this.app}users${this.joinChunks(...chunks)}`;
+    }
+
+    static tasks(): string;
+    static tasks(id: TaskDTO['id']): string;
+    static tasks(...chunks: chunks) {
+        return `${this.app}tasks${this.joinChunks(...chunks)}`;
     }
 }

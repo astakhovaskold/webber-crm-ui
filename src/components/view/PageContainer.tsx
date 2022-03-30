@@ -1,18 +1,17 @@
-/**
- * Created by VIATKIN A.A. on 10.11.2021
- */
-
-import styled from '@emotion/styled';
+import {Card} from 'antd';
 import {FC, HTMLAttributes, memo} from 'react';
 
-const Container = styled.section`
-    display: flex;
-    flex-direction: column;
-    padding: 1.5rem;
-`;
+import {PageProps} from '../../router/types';
+import {Container} from '../containers';
 
-const PageContainer: FC<HTMLAttributes<HTMLElement>> = memo(({children, ...rest}): JSX.Element | null => {
-    return <Container {...rest}>{children}</Container>;
+type PageContainerProps = PageProps & HTMLAttributes<HTMLElement>;
+
+const PageContainer: FC<PageContainerProps> = memo(({title, children, ...rest}): JSX.Element | null => {
+    return (
+        <Container {...rest}>
+            <Card title={title}>{children}</Card>
+        </Container>
+    );
 });
 
 export default PageContainer;

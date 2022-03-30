@@ -8,28 +8,27 @@ export const FullSize = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    //background-color: var(--main-color);
+    background-color: var(--main-color);
     flex: 1;
 `;
 
-export const FullWidthSpace: FC<SpaceProps> = styled(Space)`
+export const SpaceFull: FC<SpaceProps> = styled(Space)`
     width: 100%;
 `;
 
 export const Container = styled.div`
-    max-width: 1200px;
+    max-width: 1400px;
     width: 100%;
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
 `;
 
-export const ContainerCentered = styled.div`
-    max-width: 1200px;
-    width: 100%;
-    margin: 0 auto;
+export const ContainerCentered = styled(Container)`
     position: fixed;
     inset: 0;
-    display: flex;
-    align-items: center;
+    justify-content: center;
 `;
 
 export const AuthFormWrapper = styled.div`

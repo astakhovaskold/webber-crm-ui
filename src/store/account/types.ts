@@ -10,9 +10,7 @@ export enum TYPES {
 
 export enum ROLE {
     ADMIN = 'ADMIN',
-    OBSERVER = 'OBSERVER',
     USER = 'USER',
-    SECURITY_ADMIN = 'SECURITY_ADMIN',
 }
 
 export interface AccountState {

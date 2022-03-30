@@ -9,25 +9,12 @@ export const globalStyle = css`
 
     :root {
         --main-color: #fff;
+        --error-color: #861e1e;
         --color-dark: #001529;
-        --color-text-dark: #000;
+        --color-text-dark: #595b5d;
 
         --font-primary: 'Inter', sans-serif;
         --font-secondary: 'IBM Plex Sans', sans-serif;
-
-        --color-primary: #191919;
-        --color-secondary: #3b3d49;
-
-        //--color-dark: #95959d;
-        --color-light: #aaaeb6;
-        --color-border: #bababa;
-        --color-border-light: #e5e5e5;
-
-        --color-bg: #ffffff;
-        --color-bg-secondary: #f5f5f5;
-        --color-bg-dark: #04041a;
-
-        --color-bg-component: #ffffff;
     }
 
     #app {
