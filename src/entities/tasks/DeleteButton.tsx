@@ -1,28 +1,27 @@
 import {DeleteOutlined, UndoOutlined} from '@ant-design/icons';
 import {Button, Popconfirm} from 'antd';
-import {FC, memo, useCallback} from 'react';
+import {FC, memo, useCallback, useContext} from 'react';
 
 import {useMutation} from 'react-query';
 
-import {emitter} from '../../hooks/useEvent';
 import $api from '../../http';
 import API from '../../libs/API';
 
+import {Context} from './Context';
 import {TaskDTO} from './types';
 
-interface DeleteButtonProps {
-    item: TaskDTO;
-}
+const DeleteButton: FC = memo(() => {
+    const [item, setItem] = useContext(Context);
 
-const DeleteButton: FC<DeleteButtonProps> = memo(({item}) => {
     const {mutate: save, isLoading} = useMutation(
         ({is_active}: Pick<TaskDTO, 'is_active'>) => {
             return $api.patch(API.tasks(item.id), {is_active}).then(response => response.data);
         },
         {
-            onSuccess: () => {
-                emitter(`update-${API.tasks()}`);
-                emitter(`update-${item.id}`);
+            onSuccess: data => {
+                // eslint-disable-next-line no-console
+                console.log('data', data);
+                setItem(data);
             },
         },
     );

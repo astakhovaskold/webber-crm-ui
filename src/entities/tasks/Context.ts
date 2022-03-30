@@ -1,10 +1,8 @@
-import {createContext} from 'react';
+import {createContext, Dispatch} from 'react';
 
 import {TaskDTO} from './types';
 
-interface Ctx {
-    item: TaskDTO;
-}
+type Ctx = [item: TaskDTO, setItem: Dispatch<TaskDTO>];
 
 // @ts-ignore
 export const Context = createContext<Ctx>(null);

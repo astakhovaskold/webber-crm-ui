@@ -28,14 +28,14 @@ const store = createStore();
 logGreeting(`👋🏻 Welcome to ${_SYSTEM_NAME}`);
 
 ReactDOM.render(
-    <QueryClientProvider client={queryClient}>
-        <ReduxProvider store={store}>
+    <ReduxProvider store={store}>
+        <QueryClientProvider client={queryClient}>
             <ConfigProvider locale={ruRU} form={formConfig}>
                 <BrowserRouter>
                     <App />
                 </BrowserRouter>
             </ConfigProvider>
-        </ReduxProvider>
-    </QueryClientProvider>,
+        </QueryClientProvider>
+    </ReduxProvider>,
     document.getElementById('app'),
 );

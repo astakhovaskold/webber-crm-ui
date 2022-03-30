@@ -13,7 +13,7 @@ import DeleteButton from './DeleteButton';
 import FormTask from './FormTask';
 
 const View: FC = memo(() => {
-    const {item} = useContext(Context);
+    const [item] = useContext(Context);
     const {title, description, is_active} = item;
     const canEdit = useHasAccess(TASK_EDIT);
 
@@ -31,8 +31,8 @@ const View: FC = memo(() => {
 
             {canEdit && (
                 <Space>
-                    <FormTask item={item} />
-                    <DeleteButton item={item} />
+                    <FormTask />
+                    <DeleteButton />
                 </Space>
             )}
         </SpaceFull>

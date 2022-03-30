@@ -1,24 +1,20 @@
 import {Button, Drawer, Form, Input} from 'antd';
 import TextArea from 'antd/es/input/TextArea';
-import {FC, memo, useCallback, useMemo, useState} from 'react';
+import {FC, memo, useCallback, useContext, useMemo, useState} from 'react';
 
 import {useMutation} from 'react-query';
-import {useNavigate} from 'react-router-dom';
 
 import $api from '../../http';
 import API from '../../libs/API';
 
+import {Context} from './Context';
 import {TaskDTO} from './types';
-
-interface FormEmployeeProps {
-    item?: TaskDTO;
-}
 
 const {Item} = Form;
 
-const FormTask: FC<FormEmployeeProps> = memo(({item}): JSX.Element | null => {
-    const navigate = useNavigate();
+const FormTask: FC = memo((): JSX.Element | null => {
     const [visible, setVisible] = useState(false);
+    const [item, setItem] = useContext(Context);
 
     const isCreate = !item?.id;
 
@@ -30,11 +26,12 @@ const FormTask: FC<FormEmployeeProps> = memo(({item}): JSX.Element | null => {
         (task: TaskDTO) => {
             const url = isCreate ? API.tasks() : API.tasks(item.id);
 
-            return isCreate ? $api.post(url, task) : $api.patch(url, task);
+            return isCreate ? $api.post(url, task) : $api.patch(url, task).then(response => response.data);
         },
         {
-            onSuccess: () => {
-                navigate('/tasks');
+            onSuccess: data => {
+                setItem(data);
+                setVisible(false);
             },
         },
     );
