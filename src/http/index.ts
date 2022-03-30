@@ -1,6 +1,7 @@
 import {message} from 'antd';
-import axios from 'axios';
+import axios, {AxiosResponse} from 'axios';
 
+import {ErrorHandler} from '../../typings/common';
 import {_STORAGE_NAME, _STORAGE_TOKEN} from '../globals';
 import API from '../libs/API';
 import {AccountDTO} from '../store/account/types';
@@ -20,18 +21,26 @@ $api.interceptors.response.use(
         return config;
     },
     async error => {
-        const originalRequest = error.config;
+        const currentRequest = error.config;
+        const currentResponse: AxiosResponse<ErrorHandler> = error.response;
+
         if (error.response.status === 401 && error.config && !error.config._isRetry) {
-            originalRequest._isRetry = true;
+            currentRequest._isRetry = true;
             try {
                 const response = await axios.get<AccountDTO>(API.auth('refresh'), {withCredentials: true});
                 localStorage.setItem(_STORAGE_TOKEN, response.data.accessToken);
-                return await $api.request(originalRequest);
+                return await $api.request(currentRequest);
             } catch (e) {
                 localStorage.removeItem(_STORAGE_NAME);
                 message.error('Пользователь не авторизован');
             }
         }
+
+        const errorToHandle = [400, 403, 404, 500].includes(currentResponse.status);
+        if (errorToHandle && currentResponse.data.message) {
+            message.error(currentResponse.data.message);
+        }
+
         throw error;
     },
 );
