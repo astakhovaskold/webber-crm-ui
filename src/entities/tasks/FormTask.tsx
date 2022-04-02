@@ -1,9 +1,11 @@
 import {Button, Drawer, Form, Input} from 'antd';
 import TextArea from 'antd/es/input/TextArea';
+import {AxiosError} from 'axios';
 import {FC, memo, useCallback, useContext, useMemo, useState} from 'react';
 
-import {useMutation} from 'react-query';
+import {useMutation, useQueryClient} from 'react-query';
 
+import {PaginationResult} from '../../components/PaginationTable/types';
 import $api from '../../http';
 import API from '../../libs/API';
 
@@ -12,9 +14,15 @@ import {TaskDTO} from './types';
 
 const {Item} = Form;
 
+interface TaskContext {
+    previousTasks: PaginationResult<TaskDTO>;
+}
+
 const FormTask: FC = memo((): JSX.Element | null => {
     const [visible, setVisible] = useState(false);
-    const [item, setItem] = useContext(Context);
+    const {item} = useContext(Context);
+
+    const queryClient = useQueryClient();
 
     const isCreate = !item?.id;
 
@@ -22,16 +30,23 @@ const FormTask: FC = memo((): JSX.Element | null => {
         setVisible(false);
     }, []);
 
-    const {mutate: save, isLoading} = useMutation(
-        (task: TaskDTO) => {
-            const url = isCreate ? API.tasks() : API.tasks(item.id);
+    const {mutate: save, isLoading} = useMutation<TaskDTO, AxiosError, TaskDTO, TaskContext>(
+        task =>
+            new Promise((resolve, reject) => {
+                try {
+                    if (isCreate) {
+                        return resolve($api.post(API.tasks(), task).then(response => response.data));
+                    }
 
-            return isCreate ? $api.post(url, task) : $api.patch(url, task).then(response => response.data);
-        },
+                    return resolve($api.patch(API.tasks(item.id), task).then(response => response.data));
+                } catch (e) {
+                    reject(new Error('Непредвиденная ошибка'));
+                }
+            }),
         {
-            onSuccess: data => {
-                setItem(data);
+            onSuccess: async () => {
                 setVisible(false);
+                await queryClient.invalidateQueries('tasks');
             },
         },
     );
@@ -62,7 +77,7 @@ const FormTask: FC = memo((): JSX.Element | null => {
                         <Input autoComplete="title" />
                     </Item>
 
-                    <Item name="description" label="Описание" rules={[{required: true}, {type: 'string'}]}>
+                    <Item name="description" label="Описание" rules={[{type: 'string', max: 1024}]}>
                         <TextArea />
                     </Item>
                 </Form>

@@ -23,12 +23,13 @@ function PaginationTable<T extends Common>({
     columns: baseColumns,
     uid = url,
     defaultSort,
+    queryKey = 'pagination',
 }: PaginationTableProps<T>) {
     const [params, setParams] = useParamsPagination(uid);
     const [filter] = useFilterPagination(uid);
     const {page, size, ordering} = params;
 
-    const {data: list, isLoading} = useQuery<unknown, unknown, PaginationResult<T>>('pagination', () => {
+    const {data: list, isLoading} = useQuery<unknown, unknown, PaginationResult<T>>([queryKey, {page}], () => {
         return $api.get(url, {params: filter, ...params}).then(response => response.data);
     });
 

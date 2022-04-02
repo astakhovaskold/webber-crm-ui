@@ -1,38 +1,38 @@
-import {DeleteOutlined, UndoOutlined} from '@ant-design/icons';
-import {Button, Popconfirm} from 'antd';
+import {DeleteOutlined} from '@ant-design/icons';
+import {Button, message, Popconfirm} from 'antd';
 import {FC, memo, useCallback, useContext} from 'react';
 
-import {useMutation} from 'react-query';
+import {useMutation, useQueryClient} from 'react-query';
+
+import {useNavigate} from 'react-router-dom';
 
 import $api from '../../http';
 import API from '../../libs/API';
 
 import {Context} from './Context';
-import {TaskDTO} from './types';
 
-const DeleteButton: FC = memo(() => {
-    const [item, setItem] = useContext(Context);
+const ArchiveButton: FC = memo(() => {
+    const {item} = useContext(Context);
+    const navigate = useNavigate();
 
-    const {mutate: save, isLoading} = useMutation(
-        ({is_active}: Pick<TaskDTO, 'is_active'>) => {
-            return $api.patch(API.tasks(item.id), {is_active}).then(response => response.data);
+    const queryClient = useQueryClient();
+
+    const {mutate: remove, isLoading} = useMutation(() => $api.delete(API.tasks(item.id)), {
+        onSuccess: async () => {
+            navigate('/tasks');
+
+            message.success('Задача удалена');
+            await queryClient.invalidateQueries('tasks');
         },
-        {
-            onSuccess: data => {
-                // eslint-disable-next-line no-console
-                console.log('data', data);
-                setItem(data);
-            },
-        },
-    );
+    });
 
     const toggle = useCallback(() => {
-        save({is_active: !item.is_active});
-    }, [item, save]);
+        remove();
+    }, [remove]);
 
     return (
         <>
-            {item.is_active ? (
+            {item && (
                 <Popconfirm
                     title="Вы уверены, что хотите удалить задачу?"
                     onConfirm={toggle}
@@ -44,20 +44,9 @@ const DeleteButton: FC = memo(() => {
                         Удалить
                     </Button>
                 </Popconfirm>
-            ) : (
-                <Button
-                    htmlType="button"
-                    icon={<UndoOutlined />}
-                    type="primary"
-                    onClick={toggle}
-                    disabled={isLoading}
-                    loading={isLoading}
-                >
-                    Восстановить
-                </Button>
             )}
         </>
     );
 });
 
-export default DeleteButton;
+export default ArchiveButton;

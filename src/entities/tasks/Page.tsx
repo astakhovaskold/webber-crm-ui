@@ -1,5 +1,5 @@
 import {Drawer, Spin} from 'antd';
-import {FC, memo, useCallback, useState} from 'react';
+import {FC, memo, useCallback} from 'react';
 
 import {useQuery} from 'react-query';
 import {useNavigate, useParams} from 'react-router-dom';
@@ -17,27 +17,25 @@ const Page: FC<PageProps> = memo((): JSX.Element | null => {
     const navigate = useNavigate();
     const {id} = useParams();
 
-    const [item, setItem] = useState<TaskDTO | undefined>(undefined);
+    const {data: task} = useQuery<unknown, unknown, TaskDTO>(
+        ['tasks', {id}],
+        () =>
+            new Promise((resolve, reject) => {
+                if (id) {
+                    return resolve(
+                        $api.get(API.tasks(id), {params: {is_active: true}}).then(response => response.data),
+                    );
+                }
 
-    useQuery<unknown, unknown, TaskDTO>(
-        'task',
-        () => {
-            return id ? $api.get(API.tasks(id), {params: {is_active: true}}).then(response => response.data) : null;
-        },
-        {
-            cacheTime: 0,
-            staleTime: 0,
-            onSuccess: data => {
-                setItem(data);
-            },
-        },
+                reject(new Error('Задача не найдена'));
+            }),
     );
 
     const onClose = useCallback(() => {
         navigate('..');
     }, [navigate]);
 
-    if (!item)
+    if (!task)
         return (
             <Drawer visible onClose={onClose} width={400} title="Задача">
                 <Spin />
@@ -45,7 +43,7 @@ const Page: FC<PageProps> = memo((): JSX.Element | null => {
         );
 
     return (
-        <Context.Provider value={[item, setItem]}>
+        <Context.Provider value={{item: task}}>
             <Drawer visible onClose={onClose} width={400} title="Задача">
                 <View />
             </Drawer>
