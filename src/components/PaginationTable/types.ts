@@ -7,6 +7,7 @@ export interface PaginationTableProps<T extends Common> {
     columns: ColumnsType<T>;
     uid?: string;
     defaultSort?: `${'' | '-'}${string & keyof T}`;
+    queryKey?: string;
 }
 
 export interface PaginationResult<T> {

@@ -3,6 +3,7 @@
  */
 import {Common, Timestamps} from '../../../typings/common';
 import {UserDTO} from '../../store/account/types';
+import {PaginationFilter} from '../../store/pagination/types';
 import {CustomerDTO} from '../customers/types';
 
 export enum STATUS {
@@ -39,4 +40,8 @@ export interface TaskDTO extends Common, Timestamps {
     is_active: boolean;
     customer: CustomerDTO;
     status: TaskStatus;
+}
+
+export interface TaskFilter extends PaginationFilter {
+    is_active: boolean;
 }

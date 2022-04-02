@@ -4,6 +4,7 @@ import moment from 'moment';
 
 import ReactDOM from 'react-dom';
 import {QueryClient, QueryClientProvider} from 'react-query';
+import {ReactQueryDevtools} from 'react-query/devtools';
 import {Provider as ReduxProvider} from 'react-redux';
 import {BrowserRouter} from 'react-router-dom';
 
@@ -35,6 +36,7 @@ ReactDOM.render(
                     <App />
                 </BrowserRouter>
             </ConfigProvider>
+            <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
     </ReduxProvider>,
     document.getElementById('app'),

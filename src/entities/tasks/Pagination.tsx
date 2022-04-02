@@ -27,7 +27,7 @@ const columns: ColumnsType<TaskDTO> = [
 ];
 
 const Pagination: FC = memo((): JSX.Element | null => {
-    return <PaginationTable<TaskDTO> url={API.tasks()} columns={columns} />;
+    return <PaginationTable<TaskDTO> url={API.tasks()} columns={columns} queryKey="tasks" />;
 });
 
 export default Pagination;

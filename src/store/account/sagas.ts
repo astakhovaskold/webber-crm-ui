@@ -1,7 +1,3 @@
-/**
- * Created by VIATKIN A.A. on 23.12.2019
- */
-
 import axios, {AxiosResponse} from 'axios';
 import {SagaIterator} from 'redux-saga';
 import {call, Effect, put, putResolve, takeEvery, takeLeading} from 'redux-saga/effects';
@@ -16,6 +12,7 @@ import {login} from './actions';
 import {AccountDTO, AuthAction, LoginAction, LogoutAction, RegisterAction, SetAuthAction, TYPES} from './types';
 
 function* setAuthData(account: AccountDTO) {
+    axios.defaults.headers.common.Authorization = `Bearer ${account.accessToken}`;
     yield putResolve(login(account));
 }
 

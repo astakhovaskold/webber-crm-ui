@@ -8,12 +8,13 @@ import useHasAccess from '../../hooks/useHasAccess';
 import {NO_DATA_SHORT} from '../../libs/text';
 import {TASK_EDIT} from '../../permissions';
 
+import ArchiveButton from './ArchiveButton';
 import {Context} from './Context';
 import DeleteButton from './DeleteButton';
 import FormTask from './FormTask';
 
 const View: FC = memo(() => {
-    const [item] = useContext(Context);
+    const {item} = useContext(Context);
     const {title, description, is_active} = item;
     const canEdit = useHasAccess(TASK_EDIT);
 
@@ -26,13 +27,17 @@ const View: FC = memo(() => {
                     <Descriptions.Item label="Описание">{description ?? NO_DATA_SHORT}</Descriptions.Item>
                 </Descriptions>
             ) : (
-                <Alert message="Задача удалена" type="error" />
+                <Alert message="Задача в архиве" type="info" />
             )}
 
             {canEdit && (
-                <Space>
-                    <FormTask />
-                    <DeleteButton />
+                <Space direction="vertical">
+                    {is_active && <FormTask />}
+
+                    <Space>
+                        <DeleteButton />
+                        <ArchiveButton />
+                    </Space>
                 </Space>
             )}
         </SpaceFull>
