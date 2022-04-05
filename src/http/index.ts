@@ -2,7 +2,7 @@ import {message} from 'antd';
 import axios, {AxiosResponse} from 'axios';
 
 import {ErrorHandler} from '../../typings/common';
-import {_STORAGE_TOKEN} from '../globals';
+import {_STORAGE_NAME, _STORAGE_TOKEN} from '../globals';
 import API from '../libs/API';
 import {AccountDTO} from '../store/account/types';
 
@@ -32,7 +32,8 @@ $api.interceptors.response.use(
                 return await $api.request(currentRequest);
             } catch (e) {
                 message.error('Пользователь не авторизован');
-
+                localStorage.removeItem(_STORAGE_TOKEN);
+                localStorage.removeItem(_STORAGE_NAME);
                 // @ts-ignore
                 window.location = '/login';
             }
