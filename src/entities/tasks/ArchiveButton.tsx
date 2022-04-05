@@ -4,6 +4,7 @@ import {FC, memo, useCallback, useContext} from 'react';
 
 import {useMutation, useQueryClient} from 'react-query';
 
+import useParamsPagination from '../../hooks/pagination/useParamsPagination';
 import $api from '../../http';
 import API from '../../libs/API';
 
@@ -13,13 +14,16 @@ import {TaskDTO} from './types';
 const ArchiveButton: FC = memo(() => {
     const {item} = useContext(Context);
 
+    const [{page}] = useParamsPagination(API.tasks());
+
     const queryClient = useQueryClient();
 
     const {mutate: save, isLoading} = useMutation<TaskDTO, unknown, Pick<TaskDTO, 'is_active'>>(
         ({is_active}) => $api.patch(API.tasks(item.id), {is_active}).then(response => response.data),
         {
             onSuccess: async () => {
-                await queryClient.invalidateQueries(['tasks', {id: item.id}]);
+                await queryClient.invalidateQueries([API.tasks(), {page}]);
+                await queryClient.invalidateQueries([API.tasks(), {id: item.id}]);
             },
             onError: () => {
                 message.error('Ошибка архивации/восстановления');
