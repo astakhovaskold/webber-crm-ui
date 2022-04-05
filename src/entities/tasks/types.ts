@@ -43,5 +43,5 @@ export interface TaskDTO extends Common, Timestamps {
 }
 
 export interface TaskFilter extends PaginationFilter {
-    is_active: boolean;
+    show_inactive: boolean;
 }

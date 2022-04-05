@@ -2,6 +2,7 @@ import {FC, memo} from 'react';
 
 import {Outlet} from 'react-router-dom';
 
+import {SpaceFull} from '../../components/containers';
 import PageContainer from '../../components/view/PageContainer';
 import {PageProps} from '../../router/types';
 
@@ -12,8 +13,10 @@ const List: FC<PageProps> = memo(({title}): JSX.Element | null => {
     return (
         <>
             <PageContainer title={title}>
-                <Filter />
-                <Pagination />
+                <SpaceFull direction="vertical">
+                    <Filter />
+                    <Pagination />
+                </SpaceFull>
             </PageContainer>
 
             <Outlet />

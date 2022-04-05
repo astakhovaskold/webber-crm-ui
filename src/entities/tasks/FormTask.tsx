@@ -46,7 +46,7 @@ const FormTask: FC = memo((): JSX.Element | null => {
         {
             onSuccess: async () => {
                 setVisible(false);
-                await queryClient.invalidateQueries('tasks');
+                await queryClient.invalidateQueries(API.tasks());
             },
         },
     );

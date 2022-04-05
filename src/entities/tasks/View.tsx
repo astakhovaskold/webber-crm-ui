@@ -20,26 +20,26 @@ const View: FC = memo(() => {
 
     return (
         <SpaceFull direction="vertical" size="middle">
-            {is_active ? (
-                <Descriptions layout="vertical" column={1} colon={false} size="small">
-                    <Descriptions.Item label="Название">{title}</Descriptions.Item>
+            {!is_active && <Alert message="Задача в архиве" type="info" />}
 
-                    <Descriptions.Item label="Описание">{description ?? NO_DATA_SHORT}</Descriptions.Item>
-                </Descriptions>
-            ) : (
-                <Alert message="Задача в архиве" type="info" />
-            )}
+            <Descriptions layout="vertical" column={1} colon={false} size="small">
+                <Descriptions.Item label="Название">{title}</Descriptions.Item>
 
-            {canEdit && (
-                <Space direction="vertical">
-                    {is_active && <FormTask />}
+                <Descriptions.Item label="Описание">{description ?? NO_DATA_SHORT}</Descriptions.Item>
 
-                    <Space>
-                        <DeleteButton />
-                        <ArchiveButton />
-                    </Space>
-                </Space>
-            )}
+                {canEdit && (
+                    <Descriptions.Item>
+                        <Space direction="vertical">
+                            {is_active && <FormTask />}
+
+                            <Space>
+                                <DeleteButton />
+                                <ArchiveButton />
+                            </Space>
+                        </Space>
+                    </Descriptions.Item>
+                )}
+            </Descriptions>
         </SpaceFull>
     );
 });

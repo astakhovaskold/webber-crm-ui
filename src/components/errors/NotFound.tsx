@@ -1,25 +1,23 @@
-import {Layout, Row, Space} from 'antd';
-import {Content} from 'antd/es/layout/layout';
+import {Button, Result} from 'antd';
 import {FC, memo} from 'react';
-import {Link} from 'react-router-dom';
+
+import {useNavigate} from 'react-router-dom';
 
 import {ERROR_404} from '../../libs/text';
-import {ContainerCentered} from '../containers';
 
 const NotFound: FC = memo((): JSX.Element => {
+    const navigate = useNavigate();
+
     return (
-        <Layout>
-            <ContainerCentered>
-                <Content className="site-layout">
-                    <Row justify="center" align="middle">
-                        <Space direction="vertical" align="center">
-                            <h1>{ERROR_404}</h1>
-                            <Link to="/">На главную</Link>
-                        </Space>
-                    </Row>
-                </Content>
-            </ContainerCentered>
-        </Layout>
+        <Result
+            status="404"
+            title={ERROR_404}
+            extra={
+                <Button onClick={() => navigate('..')} type="primary">
+                    На главную
+                </Button>
+            }
+        />
     );
 });
 

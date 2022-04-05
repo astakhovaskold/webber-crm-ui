@@ -6,6 +6,7 @@ import {useMutation, useQueryClient} from 'react-query';
 
 import {useNavigate} from 'react-router-dom';
 
+import useParamsPagination from '../../hooks/pagination/useParamsPagination';
 import $api from '../../http';
 import API from '../../libs/API';
 
@@ -15,6 +16,8 @@ const ArchiveButton: FC = memo(() => {
     const {item} = useContext(Context);
     const navigate = useNavigate();
 
+    const [{page}] = useParamsPagination(API.tasks());
+
     const queryClient = useQueryClient();
 
     const {mutate: remove, isLoading} = useMutation(() => $api.delete(API.tasks(item.id)), {
@@ -22,7 +25,8 @@ const ArchiveButton: FC = memo(() => {
             navigate('/tasks');
 
             message.success('Задача удалена');
-            await queryClient.invalidateQueries('tasks');
+            await queryClient.invalidateQueries([API.tasks(), {page}]);
+            await queryClient.removeQueries([API.tasks(), {id: item.id}]);
         },
     });
 

@@ -18,13 +18,11 @@ const Page: FC<PageProps> = memo((): JSX.Element | null => {
     const {id} = useParams();
 
     const {data: task} = useQuery<unknown, unknown, TaskDTO>(
-        ['tasks', {id}],
+        [API.tasks(), {id}],
         () =>
             new Promise((resolve, reject) => {
                 if (id) {
-                    return resolve(
-                        $api.get(API.tasks(id), {params: {is_active: true}}).then(response => response.data),
-                    );
+                    return resolve($api.get(API.tasks(id)).then(response => response.data));
                 }
 
                 reject(new Error('Задача не найдена'));

@@ -1,7 +1,6 @@
-import {Col, Form, Row} from 'antd';
-import {FC, memo, useCallback} from 'react';
+import {Col, Form, Row, Space, Switch} from 'antd';
+import {FC, memo, useCallback, useMemo} from 'react';
 
-import SwitchAndHint from '../../components/view/SwitchAndHint';
 import useFilterPagination from '../../hooks/pagination/useFilterPagination';
 import useHasAccess from '../../hooks/useHasAccess';
 import API from '../../libs/API';
@@ -18,6 +17,14 @@ const Filter: FC = memo((): JSX.Element | null => {
 
     const [filter, setFilter] = useFilterPagination<TaskFilter>(API.tasks());
 
+    const initialValues = useMemo(
+        () => ({
+            ...filter,
+            show_inactive: false,
+        }),
+        [filter],
+    );
+
     const onChange = useCallback(
         changed => {
             setFilter(changed);
@@ -33,9 +40,15 @@ const Filter: FC = memo((): JSX.Element | null => {
                 </Col>
             )}
             <Col>
-                <Form onValuesChange={onChange} initialValues={filter}>
-                    <Item name="is_active" valuePropName="checked">
-                        <SwitchAndHint title="Все задачи" />
+                <Form onValuesChange={onChange} initialValues={initialValues}>
+                    <Item noStyle>
+                        <Space direction="horizontal" align="center">
+                            <Item noStyle name="show_inactive" valuePropName="checked">
+                                <Switch />
+                            </Item>
+
+                            <span>Показать архив</span>
+                        </Space>
                     </Item>
                 </Form>
             </Col>
