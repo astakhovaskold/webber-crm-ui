@@ -36,7 +36,7 @@ const ResetPasswordForm: FC = memo(() => {
             <h2>Сбросить пароль</h2>
 
             <Form layout="vertical" onFinish={submit} colon={false} form={form}>
-                <Item label="Введите E-mail вашего аккаунта" name="email" rules={[{required: true}]}>
+                <Item label="Введите E-mail вашего аккаунта" name="email" rules={[{required: true, type: 'email'}]}>
                     <Input type="email" placeholder="Email" size="large" autoComplete="email" />
                 </Item>
 

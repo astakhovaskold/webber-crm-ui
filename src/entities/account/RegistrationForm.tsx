@@ -30,7 +30,7 @@ const LoginForm: FC = memo(() => {
             <h2>Регистрация</h2>
 
             <Form layout="vertical" colon={false} onFinish={submit} validateMessages={validateMessagesSimple}>
-                <Item name="email" rules={[{required: true}]}>
+                <Item name="email" rules={[{required: true, type: 'email'}]}>
                     <Input prefix={<UserOutlined />} placeholder="Имя пользователя" size="large" autoComplete="email" />
                 </Item>
 
