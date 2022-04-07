@@ -53,9 +53,19 @@ const FormTask: FC = memo((): JSX.Element | null => {
 
     const initialValues = useMemo(() => ({...item}), [item]);
 
+    const ButtonStyle = useMemo(
+        () =>
+            isCreate
+                ? {}
+                : {
+                      width: '100%',
+                  },
+        [isCreate],
+    );
+
     return (
         <>
-            <Button type="primary" onClick={() => setVisible(true)}>
+            <Button type="primary" style={ButtonStyle} onClick={() => setVisible(true)}>
                 {isCreate ? 'Создать задачу' : 'Изменить'}
             </Button>
 

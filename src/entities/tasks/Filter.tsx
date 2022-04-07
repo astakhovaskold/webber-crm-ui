@@ -20,7 +20,7 @@ const Filter: FC = memo((): JSX.Element | null => {
     const initialValues = useMemo(
         () => ({
             ...filter,
-            show_inactive: false,
+            is_archive: false,
         }),
         [filter],
     );
@@ -43,7 +43,7 @@ const Filter: FC = memo((): JSX.Element | null => {
                 <Form onValuesChange={onChange} initialValues={initialValues}>
                     <Item noStyle>
                         <Space direction="horizontal" align="center">
-                            <Item noStyle name="show_inactive" valuePropName="checked">
+                            <Item noStyle name="is_archive" valuePropName="checked">
                                 <Switch />
                             </Item>
 

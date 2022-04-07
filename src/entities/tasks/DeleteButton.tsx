@@ -37,13 +37,7 @@ const ArchiveButton: FC = memo(() => {
     return (
         <>
             {item && (
-                <Popconfirm
-                    title="Вы уверены, что хотите удалить задачу?"
-                    onConfirm={toggle}
-                    okType="danger"
-                    okText="Удалить"
-                    placement="top"
-                >
+                <Popconfirm title="Удалить задачу?" onConfirm={toggle} okType="danger" okText="Удалить" placement="top">
                     <Button htmlType="button" icon={<DeleteOutlined />} danger disabled={isLoading} loading={isLoading}>
                         Удалить
                     </Button>
