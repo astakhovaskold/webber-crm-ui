@@ -18,8 +18,8 @@ const ArchiveButton: FC = memo(() => {
 
     const queryClient = useQueryClient();
 
-    const {mutate: save, isLoading} = useMutation<TaskDTO, unknown, Pick<TaskDTO, 'is_active'>>(
-        ({is_active}) => $api.patch(API.tasks(item.id), {is_active}).then(response => response.data),
+    const {mutate: save, isLoading} = useMutation<TaskDTO, unknown, Pick<TaskDTO, 'is_archive'>>(
+        ({is_archive}) => $api.patch(API.tasks(item.id), {is_archive}).then(response => response.data),
         {
             onSuccess: async () => {
                 await queryClient.invalidateQueries([API.tasks(), {page}]);
@@ -32,12 +32,12 @@ const ArchiveButton: FC = memo(() => {
     );
 
     const toggle = useCallback(() => {
-        save({is_active: !item.is_active});
+        save({is_archive: !item.is_archive});
     }, [item, save]);
 
     return (
         <>
-            {item.is_active ? (
+            {!item.is_archive ? (
                 <Button
                     htmlType="button"
                     icon={<DeleteOutlined />}

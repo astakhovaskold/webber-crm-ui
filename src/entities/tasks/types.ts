@@ -30,6 +30,7 @@ export interface TaskDTO extends Common, Timestamps {
     title: string;
     description?: string;
     is_active: boolean;
+    is_archive: boolean;
     author: UserDTO['id'];
     customer: CustomerDTO;
     status: TaskStatus;
