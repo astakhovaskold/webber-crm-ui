@@ -10,7 +10,7 @@ function useDefaultPath(): string {
     const path = useMemo(() => {
         if (!account) return '/';
 
-        switch (account.user.role) {
+        switch (account.user.role.role) {
             case ROLE.ADMIN:
                 return '/';
 
