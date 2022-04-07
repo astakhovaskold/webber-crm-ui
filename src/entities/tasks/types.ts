@@ -26,20 +26,14 @@ interface TaskTime {
     calc: number;
 }
 
-interface TaskRoles {
-    creator: UserDTO;
-    developer: UserDTO;
-    observers: Array<UserDTO>;
-}
-
 export interface TaskDTO extends Common, Timestamps {
     title: string;
     description?: string;
-    time?: TaskTime;
-    roles: TaskRoles;
     is_active: boolean;
+    author: UserDTO['id'];
     customer: CustomerDTO;
     status: TaskStatus;
+    time?: TaskTime;
 }
 
 export interface TaskFilter extends PaginationFilter {
