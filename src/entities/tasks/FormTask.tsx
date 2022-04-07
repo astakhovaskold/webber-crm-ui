@@ -6,6 +6,7 @@ import {FC, memo, useCallback, useContext, useMemo, useState} from 'react';
 import {useMutation, useQueryClient} from 'react-query';
 
 import {PaginationResult} from '../../components/PaginationTable/types';
+import useAccount from '../../hooks/useAccount';
 import $api from '../../http';
 import API from '../../libs/API';
 
@@ -19,6 +20,7 @@ interface TaskContext {
 }
 
 const FormTask: FC = memo((): JSX.Element | null => {
+    const {account} = useAccount();
     const [visible, setVisible] = useState(false);
     const {item} = useContext(Context);
 
@@ -35,7 +37,9 @@ const FormTask: FC = memo((): JSX.Element | null => {
             new Promise((resolve, reject) => {
                 try {
                     if (isCreate) {
-                        return resolve($api.post(API.tasks(), task).then(response => response.data));
+                        return resolve(
+                            $api.post(API.tasks(), {...task, author: account?.user.id}).then(response => response.data),
+                        );
                     }
 
                     return resolve($api.patch(API.tasks(item.id), task).then(response => response.data));
