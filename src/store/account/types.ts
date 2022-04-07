@@ -19,23 +19,27 @@ export interface AccountState {
     readonly loggedOut: boolean;
 }
 
+export interface JobDTO extends Common {
+    name: string;
+}
+
 interface UserName {
     first: string;
     last: string;
     middle: string;
 }
 
-export interface JobDTO extends Common {
-    name: string;
+export interface UserRole {
+    role: ROLE;
+    role_name: string;
 }
 
 export interface UserDTO extends Common {
     name: UserName;
     email: string;
-    salary: number;
-    job: JobDTO;
     is_active: boolean;
-    role?: ROLE;
+    role: UserRole;
+    job?: JobDTO;
 }
 
 export interface AccountDTO {
