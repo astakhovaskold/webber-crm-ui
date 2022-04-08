@@ -15,3 +15,9 @@ export interface PaginationResult<T> {
     total_items: number | null;
     total_pages: number | null;
 }
+
+export enum WIDTH {
+    SM = 200,
+    MD = 400,
+    LG = 800,
+}

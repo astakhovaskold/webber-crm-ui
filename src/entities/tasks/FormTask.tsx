@@ -1,12 +1,14 @@
-import {Button, Drawer, Form, Input, Select} from 'antd';
+import {Button, DatePicker, Drawer, Form, Input, Select} from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import {AxiosError} from 'axios';
+import moment from 'moment';
 import {FC, memo, useCallback, useContext, useMemo, useState} from 'react';
 
 import {useMutation, useQueryClient} from 'react-query';
 
 import {PaginationResult} from '../../components/PaginationTable/types';
 import Request from '../../components/utils/Request';
+import useDateUtils from '../../hooks/useDateUtils';
 import $api from '../../http';
 import API from '../../libs/API';
 
@@ -23,6 +25,8 @@ const FormTask: FC = memo((): JSX.Element | null => {
     const [visible, setVisible] = useState(false);
     const {item} = useContext(Context);
 
+    const {minToday, baseDatePickerProps} = useDateUtils();
+
     const queryClient = useQueryClient();
 
     const isCreate = !item?.id;
@@ -36,10 +40,18 @@ const FormTask: FC = memo((): JSX.Element | null => {
             new Promise((resolve, reject) => {
                 try {
                     if (isCreate) {
-                        return resolve($api.post(API.tasks(), task).then(response => response.data));
+                        return resolve(
+                            $api
+                                .post(API.tasks(), {...task, deadline: moment(task.deadline)})
+                                .then(response => response.data),
+                        );
                     }
 
-                    return resolve($api.patch(API.tasks(item.id), task).then(response => response.data));
+                    return resolve(
+                        $api
+                            .patch(API.tasks(item.id), {...task, deadline: moment(task.deadline)})
+                            .then(response => response.data),
+                    );
                 } catch (e) {
                     reject(new Error('Непредвиденная ошибка'));
                 }
@@ -52,7 +64,13 @@ const FormTask: FC = memo((): JSX.Element | null => {
         },
     );
 
-    const initialValues = useMemo(() => ({...item, status: item.status?._id}), [item]);
+    const initialValues = useMemo(() => {
+        return {
+            ...item,
+            status: item.status?._id,
+            deadline: item.deadline ? moment(item.deadline) : undefined,
+        };
+    }, [item]);
 
     const ButtonStyle = useMemo(
         () =>
@@ -90,6 +108,10 @@ const FormTask: FC = memo((): JSX.Element | null => {
 
                     <Item name="description" label="Описание" rules={[{type: 'string', max: 1024}]}>
                         <TextArea />
+                    </Item>
+
+                    <Item label="Срок выполнения" name="deadline" validateFirst>
+                        <DatePicker {...baseDatePickerProps} disabledDate={minToday} allowClear />
                     </Item>
 
                     {!isCreate && (

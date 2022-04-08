@@ -56,9 +56,6 @@ const Request: FC<RequestProps> = memo(
             }
         }, [cache, clearOnUnmount, queryClient, queryKey]);
 
-        // eslint-disable-next-line no-console
-        console.log(typeof render === 'function' ? render(data, isLoading) : null);
-
         return <>{typeof render === 'function' ? render(data, isLoading) : null}</>;
     }),
 );

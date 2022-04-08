@@ -3,6 +3,7 @@ import {FC, memo, useContext} from 'react';
 
 import {SpaceFull} from '../../components/containers';
 
+import DateView from '../../components/view/DateView';
 import useHasAccess from '../../hooks/useHasAccess';
 
 import {NO_DATA_SHORT} from '../../libs/text';
@@ -16,7 +17,7 @@ import Status from './Status';
 
 const View: FC = memo(() => {
     const {item} = useContext(Context);
-    const {title, description, is_active, status} = item;
+    const {title, description, is_active, status, deadline} = item;
     const canEdit = useHasAccess(TASK_EDIT);
 
     return (
@@ -31,6 +32,12 @@ const View: FC = memo(() => {
                 <Descriptions.Item label="Статус">
                     <Status item={status} />
                 </Descriptions.Item>
+
+                {typeof deadline !== 'undefined' && (
+                    <Descriptions.Item label="Срок выполнения">
+                        <DateView date={deadline} />
+                    </Descriptions.Item>
+                )}
 
                 {canEdit && (
                     <Descriptions.Item>

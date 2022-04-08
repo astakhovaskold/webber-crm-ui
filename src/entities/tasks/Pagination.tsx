@@ -4,7 +4,11 @@ import {FC, memo} from 'react';
 import {Link} from 'react-router-dom';
 
 import PaginationTable from '../../components/PaginationTable/PaginationTable';
+import {WIDTH} from '../../components/PaginationTable/types';
+import DateView from '../../components/view/DateView';
 import API from '../../libs/API';
+
+import {DASH} from '../../libs/text';
 
 import Status from './Status';
 import {TaskDTO} from './types';
@@ -13,11 +17,19 @@ const columns: ColumnsType<TaskDTO> = [
     {
         dataIndex: 'title',
         title: 'Задача',
+        width: WIDTH.MD,
     },
     {
         dataIndex: 'status',
         title: 'Статус',
         render: (_, {status}) => <Status item={status} />,
+        width: WIDTH.SM,
+    },
+    {
+        dataIndex: 'deadline',
+        title: 'Срок выполнения',
+        render: (_, {deadline}) => (deadline ? <DateView date={deadline} /> : DASH),
+        width: WIDTH.SM,
     },
     {
         key: 'id',
