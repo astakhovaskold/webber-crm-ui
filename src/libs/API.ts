@@ -52,4 +52,10 @@ export default class API {
     static tasks(...chunks: chunks) {
         return `${this.app}tasks${this.joinChunks(...chunks)}`;
     }
+
+    static directory(): string;
+    static directory(command: string, command2?: string): string;
+    static directory(...chunks: chunks) {
+        return `${this.app}directory${this.joinChunks(...chunks)}`;
+    }
 }

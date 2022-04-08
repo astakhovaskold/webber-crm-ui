@@ -17,7 +17,7 @@ const columns: ColumnsType<TaskDTO> = [
     {
         dataIndex: 'status',
         title: 'Статус',
-        render: (_, {status}) => <Status status={status.status} status_name={status.status_name} />,
+        render: (_, {status}) => <Status item={status} />,
     },
     {
         key: 'id',

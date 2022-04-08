@@ -2,6 +2,10 @@ export interface Common {
     readonly id: string;
 }
 
+export interface CommonDB {
+    readonly _id: string;
+}
+
 export interface Timestamps {
     readonly createdAt: string | Date;
     readonly updatedAt: string | Date;

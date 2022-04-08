@@ -12,10 +12,11 @@ import ArchiveButton from './ArchiveButton';
 import {Context} from './Context';
 import DeleteButton from './DeleteButton';
 import FormTask from './FormTask';
+import Status from './Status';
 
 const View: FC = memo(() => {
     const {item} = useContext(Context);
-    const {title, description, is_active} = item;
+    const {title, description, is_active, status} = item;
     const canEdit = useHasAccess(TASK_EDIT);
 
     return (
@@ -26,6 +27,10 @@ const View: FC = memo(() => {
                 <Descriptions.Item label="Название">{title}</Descriptions.Item>
 
                 <Descriptions.Item label="Описание">{description ?? NO_DATA_SHORT}</Descriptions.Item>
+
+                <Descriptions.Item label="Статус">
+                    <Status item={status} />
+                </Descriptions.Item>
 
                 {canEdit && (
                     <Descriptions.Item>

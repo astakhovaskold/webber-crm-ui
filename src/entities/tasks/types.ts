@@ -1,7 +1,8 @@
 /**
  * Created by ASTAKHOV A.A. on 28.03.2022
  */
-import {Common, Timestamps} from '../../../typings/common';
+
+import {Common, CommonDB, Timestamps} from '../../../typings/common';
 import {UserDTO} from '../../store/account/types';
 import {PaginationFilter} from '../../store/pagination/types';
 import {CustomerDTO} from '../customers/types';
@@ -15,7 +16,7 @@ export enum STATUS {
     DONE = 'DONE',
 }
 
-export interface TaskStatus {
+export interface StatusDTO extends CommonDB {
     status: STATUS;
     status_name: string;
 }
@@ -33,7 +34,7 @@ export interface TaskDTO extends Common, Timestamps {
     is_archive: boolean;
     author: UserDTO['id'];
     customer: CustomerDTO;
-    status: TaskStatus;
+    status: StatusDTO;
     time?: TaskTime;
 }
 

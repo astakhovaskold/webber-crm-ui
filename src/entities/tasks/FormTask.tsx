@@ -1,4 +1,4 @@
-import {Button, Drawer, Form, Input} from 'antd';
+import {Button, Drawer, Form, Input, Select} from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import {AxiosError} from 'axios';
 import {FC, memo, useCallback, useContext, useMemo, useState} from 'react';
@@ -6,11 +6,12 @@ import {FC, memo, useCallback, useContext, useMemo, useState} from 'react';
 import {useMutation, useQueryClient} from 'react-query';
 
 import {PaginationResult} from '../../components/PaginationTable/types';
+import Request from '../../components/utils/Request';
 import $api from '../../http';
 import API from '../../libs/API';
 
 import {Context} from './Context';
-import {TaskDTO} from './types';
+import {StatusDTO, TaskDTO} from './types';
 
 const {Item} = Form;
 
@@ -51,7 +52,7 @@ const FormTask: FC = memo((): JSX.Element | null => {
         },
     );
 
-    const initialValues = useMemo(() => ({...item}), [item]);
+    const initialValues = useMemo(() => ({...item, status: item.status?._id}), [item]);
 
     const ButtonStyle = useMemo(
         () =>
@@ -90,6 +91,28 @@ const FormTask: FC = memo((): JSX.Element | null => {
                     <Item name="description" label="Описание" rules={[{type: 'string', max: 1024}]}>
                         <TextArea />
                     </Item>
+
+                    {!isCreate && (
+                        <Request
+                            url={API.directory('status')}
+                            queryKey={['status', {id: item.id}]}
+                            render={(res: PaginationResult<StatusDTO>) => {
+                                return (
+                                    <Item name="status" label="Статус" rules={[{required: true}]}>
+                                        <Select
+                                            placeholder="Статус задачи"
+                                            disabled={!res}
+                                            loading={!res}
+                                            options={res?.content.map(({_id: value, status_name: label}) => ({
+                                                value,
+                                                label,
+                                            }))}
+                                        />
+                                    </Item>
+                                );
+                            }}
+                        />
+                    )}
                 </Form>
             </Drawer>
         </>
