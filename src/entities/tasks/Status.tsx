@@ -2,45 +2,44 @@
  * Created by ASTAKHOV A.A. on 28.03.2022
  */
 
-import {SettingOutlined} from '@ant-design/icons';
 import {Tag} from 'antd';
-import {CSSProperties, FC, memo, useMemo} from 'react';
+import {FC, memo, useMemo} from 'react';
 
-import {STATUS, TaskStatus} from './types';
+import {STATUS, StatusDTO} from './types';
 
-const textStyle: CSSProperties = {whiteSpace: 'nowrap'};
+interface StatusProps {
+    item: StatusDTO;
+}
 
-const Status: FC<TaskStatus> = memo(({status, status_name}): JSX.Element | null => {
+const Status: FC<StatusProps> = memo(({item}): JSX.Element | null => {
+    const {status, status_name} = item;
+
     const {color} = useMemo(() => {
         switch (status) {
             case STATUS.NEW:
-                return {color: '#69F0AE'};
+                return {color: 'green'};
 
             case STATUS.SCHEDULED:
-                return {color: '#4CAF50'};
+                return {color: 'blue'};
 
             case STATUS.WORKING:
-                return {color: '#2E7D32'};
+                return {color: 'geekblue'};
 
             case STATUS.TESTING:
-                return {color: '#3F51B5'};
+                return {color: 'yellow'};
 
             case STATUS.REVERSED:
-                return {color: '#F57C00'};
+                return {color: 'volcano'};
 
             case STATUS.DONE:
-                return {color: '#D84315'};
+                return {color: 'darkgreen'};
 
             default:
-                return {color: '#9E9E9E'};
+                return {color: 'lightgray'};
         }
     }, [status]);
 
-    return (
-        <Tag style={textStyle} color={color} icon={status === STATUS.REVERSED ? <SettingOutlined /> : undefined}>
-            {status_name}
-        </Tag>
-    );
+    return <Tag color={color}>{status_name.toUpperCase()}</Tag>;
 });
 
 export default Status;

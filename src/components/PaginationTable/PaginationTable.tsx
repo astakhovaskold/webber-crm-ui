@@ -127,7 +127,6 @@ function PaginationTable<T extends Common>({
             showSorterTooltip={false}
             rowKey="_id"
             loading={isLoading}
-            size="small"
         />
     );
 }
