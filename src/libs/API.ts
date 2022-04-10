@@ -58,4 +58,10 @@ export default class API {
     static directory(...chunks: chunks) {
         return `${this.app}directory${this.joinChunks(...chunks)}`;
     }
+
+    static customers(): string;
+    static customers(id: TaskDTO['id']): string;
+    static customers(...chunks: chunks) {
+        return `${this.app}customers${this.joinChunks(...chunks)}`;
+    }
 }

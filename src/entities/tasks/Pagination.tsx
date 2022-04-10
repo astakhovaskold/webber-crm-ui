@@ -20,6 +20,12 @@ const columns: ColumnsType<TaskDTO> = [
         width: WIDTH.MD,
     },
     {
+        dataIndex: 'customer._id',
+        title: 'Клиент',
+        render: (_, {customer}) => (customer?.name ? customer.name : DASH),
+        width: WIDTH.SM,
+    },
+    {
         dataIndex: 'status',
         title: 'Статус',
         render: (_, {status}) => <Status item={status} />,

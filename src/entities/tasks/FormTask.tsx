@@ -12,6 +12,8 @@ import useDateUtils from '../../hooks/useDateUtils';
 import $api from '../../http';
 import API from '../../libs/API';
 
+import {CustomerDTO} from '../customers/types';
+
 import {Context} from './Context';
 import {StatusDTO, TaskDTO} from './types';
 
@@ -60,6 +62,7 @@ const FormTask: FC = memo((): JSX.Element | null => {
         return {
             ...item,
             status: item.status?._id,
+            customer: item.customer?._id,
             deadline: item.deadline ? moment(item.deadline) : undefined,
         };
     }, [item]);
@@ -101,6 +104,26 @@ const FormTask: FC = memo((): JSX.Element | null => {
                     <Item name="description" label="Описание" rules={[{type: 'string', max: 1024}]}>
                         <TextArea size="large" />
                     </Item>
+
+                    <Request
+                        url={API.customers()}
+                        queryKey={['customers', {id: item.id}]}
+                        render={(res: PaginationResult<CustomerDTO>) => {
+                            return (
+                                <Item name="customer" label="Клиент" rules={[{required: true}]}>
+                                    <Select
+                                        placeholder="Клиент"
+                                        disabled={!res}
+                                        loading={!res}
+                                        options={res?.content.map(({_id: value, name: label}) => ({
+                                            value,
+                                            label,
+                                        }))}
+                                    />
+                                </Item>
+                            );
+                        }}
+                    />
 
                     <Item label="Срок выполнения" name="deadline" validateFirst>
                         <DatePicker {...baseDatePickerProps} disabledDate={minToday} allowClear />
