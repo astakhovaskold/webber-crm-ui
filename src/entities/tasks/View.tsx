@@ -6,7 +6,7 @@ import {SpaceFull} from '../../components/containers';
 import DateView from '../../components/view/DateView';
 import useHasAccess from '../../hooks/useHasAccess';
 
-import {NO_DATA_SHORT} from '../../libs/text';
+import {DASH, NO_DATA_SHORT, RUB} from '../../libs/text';
 import {TASK_EDIT} from '../../permissions';
 
 import ArchiveButton from './ArchiveButton';
@@ -17,7 +17,7 @@ import Status from './Status';
 
 const View: FC = memo(() => {
     const {item} = useContext(Context);
-    const {title, description, is_active, status, deadline} = item;
+    const {title, description, is_active, is_archive, status, deadline, estimate, actually, price} = item;
     const canEdit = useHasAccess(TASK_EDIT);
 
     return (
@@ -33,16 +33,20 @@ const View: FC = memo(() => {
                     <Status item={status} />
                 </Descriptions.Item>
 
-                {typeof deadline !== 'undefined' && (
-                    <Descriptions.Item label="Срок выполнения">
-                        <DateView date={deadline} />
-                    </Descriptions.Item>
-                )}
+                <Descriptions.Item label="Срок выполнения">
+                    {deadline ? <DateView date={deadline} /> : DASH}
+                </Descriptions.Item>
+
+                <Descriptions.Item label="Оценка (ч)">{estimate ?? DASH}</Descriptions.Item>
+
+                <Descriptions.Item label="Учёт времени (ч)">{actually ?? DASH}</Descriptions.Item>
+
+                <Descriptions.Item label="Стоимость задачи">{price ? `${price} ${RUB}` : DASH}</Descriptions.Item>
 
                 {canEdit && (
                     <Descriptions.Item>
                         <Space direction="vertical">
-                            {is_active && <FormTask />}
+                            {is_active && !is_archive && <FormTask />}
 
                             <Space>
                                 <DeleteButton />

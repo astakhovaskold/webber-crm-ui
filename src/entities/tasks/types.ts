@@ -30,9 +30,11 @@ export interface TaskDTO extends Common, Timestamps {
     author: UserDTO['id'];
     customer: CustomerDTO;
     status: StatusDTO;
+    deadline?: valueDateView;
     estimate?: number;
     actually?: number;
-    deadline?: valueDateView;
+    is_fixed_price: boolean;
+    price: number;
 }
 
 export interface TaskFilter extends PaginationFilter {

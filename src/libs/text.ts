@@ -9,3 +9,5 @@ export const INVALID_DATE = 'НЕПРАВИЛЬНАЯ ДАТА';
 export const ERROR_404 = 'Здесь пока ничего нет';
 
 export const RESTRICTED_ACCESS = 'Нет доступа';
+
+export const RUB = '₽';
