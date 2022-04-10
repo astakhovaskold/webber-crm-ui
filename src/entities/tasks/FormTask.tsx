@@ -1,27 +1,33 @@
-import {Button, Drawer, Form, Input, Select} from 'antd';
+import styled from '@emotion/styled';
+import {Button, Col, DatePicker, Drawer, Form, Input, InputNumber, Row, Select, Switch} from 'antd';
 import TextArea from 'antd/es/input/TextArea';
-import {AxiosError} from 'axios';
+import moment from 'moment';
 import {FC, memo, useCallback, useContext, useMemo, useState} from 'react';
 
 import {useMutation, useQueryClient} from 'react-query';
 
 import {PaginationResult} from '../../components/PaginationTable/types';
 import Request from '../../components/utils/Request';
+import useDateUtils from '../../hooks/useDateUtils';
 import $api from '../../http';
 import API from '../../libs/API';
+
+import {CustomerDTO} from '../customers/types';
 
 import {Context} from './Context';
 import {StatusDTO, TaskDTO} from './types';
 
 const {Item} = Form;
 
-interface TaskContext {
-    previousTasks: PaginationResult<TaskDTO>;
-}
+const Number = styled(InputNumber)`
+    width: 100%;
+`;
 
 const FormTask: FC = memo((): JSX.Element | null => {
     const [visible, setVisible] = useState(false);
     const {item} = useContext(Context);
+
+    const {minToday, baseDatePickerProps} = useDateUtils();
 
     const queryClient = useQueryClient();
 
@@ -31,7 +37,7 @@ const FormTask: FC = memo((): JSX.Element | null => {
         setVisible(false);
     }, []);
 
-    const {mutate: save, isLoading} = useMutation<TaskDTO, AxiosError, TaskDTO, TaskContext>(
+    const {mutate: save, isLoading} = useMutation<TaskDTO, void, TaskDTO>(
         task =>
             new Promise((resolve, reject) => {
                 try {
@@ -52,7 +58,14 @@ const FormTask: FC = memo((): JSX.Element | null => {
         },
     );
 
-    const initialValues = useMemo(() => ({...item, status: item.status?._id}), [item]);
+    const initialValues = useMemo(() => {
+        return {
+            ...item,
+            status: item.status?._id,
+            customer: item.customer?._id,
+            deadline: item.deadline ? moment(item.deadline) : undefined,
+        };
+    }, [item]);
 
     const ButtonStyle = useMemo(
         () =>
@@ -89,7 +102,68 @@ const FormTask: FC = memo((): JSX.Element | null => {
                     </Item>
 
                     <Item name="description" label="Описание" rules={[{type: 'string', max: 1024}]}>
-                        <TextArea />
+                        <TextArea size="large" />
+                    </Item>
+
+                    <Request
+                        url={API.customers()}
+                        queryKey={['customers', {id: item.id}]}
+                        render={(res: PaginationResult<CustomerDTO>) => {
+                            return (
+                                <Item name="customer" label="Клиент" rules={[{required: true}]}>
+                                    <Select
+                                        placeholder="Клиент"
+                                        disabled={!res}
+                                        loading={!res}
+                                        options={res?.content.map(({_id: value, name: label}) => ({
+                                            value,
+                                            label,
+                                        }))}
+                                    />
+                                </Item>
+                            );
+                        }}
+                    />
+
+                    <Item label="Срок выполнения" name="deadline" validateFirst>
+                        <DatePicker {...baseDatePickerProps} disabledDate={minToday} allowClear />
+                    </Item>
+
+                    <Item noStyle>
+                        <Row gutter={[8, 8]} wrap={false}>
+                            <Col flex="auto">
+                                <Item label="Оценка (ч)" name="estimate" rules={[{type: 'number', min: 0}]}>
+                                    <Number step={0.25} min={0} />
+                                </Item>
+                            </Col>
+
+                            <Col flex="auto">
+                                <Item label="Учёт времени (ч)" name="actually" rules={[{type: 'number', min: 0}]}>
+                                    <Number step={0.25} min={0} />
+                                </Item>
+                            </Col>
+                        </Row>
+                    </Item>
+
+                    <Item name="is_fixed_price" label="Фиксированная стоимость" valuePropName="checked">
+                        <Switch />
+                    </Item>
+
+                    <Item
+                        noStyle
+                        shouldUpdate={(prevValues, nextValues) =>
+                            prevValues.is_fixed_price !== nextValues.is_fixed_price
+                        }
+                    >
+                        {({getFieldValue}) => {
+                            const is_fixed_price = getFieldValue('is_fixed_price');
+
+                            return (
+                                <Item name="price" label="Стоимость задачи" rules={[{type: 'number'}]}>
+                                    <Number step={100} min={0} readOnly={!is_fixed_price} prefix="₽" />
+                                </Item>
+                            );
+                        }}
                     </Item>
 
                     {!isCreate && (

@@ -3,9 +3,10 @@ import {FC, memo, useContext} from 'react';
 
 import {SpaceFull} from '../../components/containers';
 
+import DateView from '../../components/view/DateView';
 import useHasAccess from '../../hooks/useHasAccess';
 
-import {NO_DATA_SHORT} from '../../libs/text';
+import {DASH, RUB} from '../../libs/text';
 import {TASK_EDIT} from '../../permissions';
 
 import ArchiveButton from './ArchiveButton';
@@ -16,7 +17,7 @@ import Status from './Status';
 
 const View: FC = memo(() => {
     const {item} = useContext(Context);
-    const {title, description, is_active, status} = item;
+    const {title, description, is_active, is_archive, status, deadline, estimate, actually, price, customer} = item;
     const canEdit = useHasAccess(TASK_EDIT);
 
     return (
@@ -26,16 +27,28 @@ const View: FC = memo(() => {
             <Descriptions layout="vertical" column={1} colon={false} size="small">
                 <Descriptions.Item label="Название">{title}</Descriptions.Item>
 
-                <Descriptions.Item label="Описание">{description ?? NO_DATA_SHORT}</Descriptions.Item>
+                <Descriptions.Item label="Описание">{description ?? DASH}</Descriptions.Item>
+
+                <Descriptions.Item label="Клиент">{customer ? customer.name : DASH}</Descriptions.Item>
 
                 <Descriptions.Item label="Статус">
                     <Status item={status} />
                 </Descriptions.Item>
 
+                <Descriptions.Item label="Срок выполнения">
+                    {deadline ? <DateView date={deadline} /> : DASH}
+                </Descriptions.Item>
+
+                <Descriptions.Item label="Оценка (ч)">{estimate ?? DASH}</Descriptions.Item>
+
+                <Descriptions.Item label="Учёт времени (ч)">{actually ?? DASH}</Descriptions.Item>
+
+                <Descriptions.Item label="Стоимость задачи">{price ? `${price} ${RUB}` : DASH}</Descriptions.Item>
+
                 {canEdit && (
                     <Descriptions.Item>
                         <Space direction="vertical">
-                            {is_active && <FormTask />}
+                            {is_active && !is_archive && <FormTask />}
 
                             <Space>
                                 <DeleteButton />
