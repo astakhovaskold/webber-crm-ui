@@ -54,6 +54,7 @@ export default class API {
     }
 
     static directory(): string;
+    static directory(chunk: 'status'): string;
     static directory(command: string, command2?: string): string;
     static directory(...chunks: chunks) {
         return `${this.app}directory${this.joinChunks(...chunks)}`;

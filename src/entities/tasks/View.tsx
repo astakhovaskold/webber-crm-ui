@@ -17,7 +17,8 @@ import Status from './Status';
 
 const View: FC = memo(() => {
     const {item} = useContext(Context);
-    const {title, description, is_active, is_archive, status, deadline, estimate, actually, price, customer} = item;
+    const {title, description, is_active, is_archive, is_done, status, deadline, estimate, actually, price, customer} =
+        item;
     const canEdit = useHasAccess(TASK_EDIT);
 
     return (
@@ -47,12 +48,12 @@ const View: FC = memo(() => {
 
                 {canEdit && (
                     <Descriptions.Item>
-                        <Space direction="vertical">
+                        <Space direction={is_done ? 'horizontal' : 'vertical'}>
                             {is_active && !is_archive && <FormTask />}
 
                             <Space>
                                 <DeleteButton />
-                                <ArchiveButton />
+                                {!is_done && <ArchiveButton />}
                             </Space>
                         </Space>
                     </Descriptions.Item>
