@@ -21,6 +21,7 @@ const Filter: FC = memo((): JSX.Element | null => {
         () => ({
             ...filter,
             is_archive: false,
+            is_done: false,
         }),
         [filter],
     );
@@ -42,12 +43,26 @@ const Filter: FC = memo((): JSX.Element | null => {
             <Col>
                 <Form onValuesChange={onChange} initialValues={initialValues}>
                     <Item noStyle>
-                        <Space direction="horizontal" align="center">
-                            <Item noStyle name="is_archive" valuePropName="checked">
-                                <Switch />
+                        <Space size="large">
+                            <Item noStyle>
+                                <Space direction="horizontal" align="center">
+                                    <Item noStyle name="is_archive" valuePropName="checked">
+                                        <Switch />
+                                    </Item>
+
+                                    <span>Показать архив</span>
+                                </Space>
                             </Item>
 
-                            <span>Показать архив</span>
+                            <Item noStyle>
+                                <Space direction="horizontal" align="center">
+                                    <Item noStyle name="is_done" valuePropName="checked">
+                                        <Switch />
+                                    </Item>
+
+                                    <span>Показать выполненные</span>
+                                </Space>
+                            </Item>
                         </Space>
                     </Item>
                 </Form>

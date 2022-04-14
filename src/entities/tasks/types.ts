@@ -27,6 +27,7 @@ export interface TaskDTO extends Common, Timestamps {
     description?: string;
     is_active: boolean;
     is_archive: boolean;
+    is_done: boolean;
     author: UserDTO['id'];
     customer: CustomerDTO;
     status: StatusDTO;
@@ -38,5 +39,6 @@ export interface TaskDTO extends Common, Timestamps {
 }
 
 export interface TaskFilter extends PaginationFilter {
-    show_inactive: boolean;
+    is_archive: boolean;
+    is_done: boolean;
 }

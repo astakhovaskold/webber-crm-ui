@@ -12,17 +12,21 @@ import {TASK_EDIT} from '../../permissions';
 import ArchiveButton from './ArchiveButton';
 import {Context} from './Context';
 import DeleteButton from './DeleteButton';
+import DoneButton from './DoneButton';
 import FormTask from './FormTask';
 import Status from './Status';
 
 const View: FC = memo(() => {
     const {item} = useContext(Context);
-    const {title, description, is_active, is_archive, status, deadline, estimate, actually, price, customer} = item;
+    const {title, description, is_active, is_archive, is_done, status, deadline, estimate, actually, price, customer} =
+        item;
     const canEdit = useHasAccess(TASK_EDIT);
 
     return (
         <SpaceFull direction="vertical" size="middle">
-            {!is_active && <Alert message="Задача в архиве" type="info" />}
+            {is_archive && <Alert message="Задача в архиве" type="info" />}
+
+            {is_done && <Alert message="Задача выполнена" type="success" />}
 
             <Descriptions layout="vertical" column={1} colon={false} size="small">
                 <Descriptions.Item label="Название">{title}</Descriptions.Item>
@@ -47,12 +51,13 @@ const View: FC = memo(() => {
 
                 {canEdit && (
                     <Descriptions.Item>
-                        <Space direction="vertical">
+                        <Space direction={is_done ? 'horizontal' : 'vertical'}>
                             {is_active && !is_archive && <FormTask />}
+                            {!is_done && <DoneButton />}
 
                             <Space>
                                 <DeleteButton />
-                                <ArchiveButton />
+                                {!is_done && <ArchiveButton />}
                             </Space>
                         </Space>
                     </Descriptions.Item>
