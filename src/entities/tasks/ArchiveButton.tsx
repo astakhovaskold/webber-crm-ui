@@ -1,4 +1,4 @@
-import {DeleteOutlined, UndoOutlined} from '@ant-design/icons';
+import {InboxOutlined, UndoOutlined} from '@ant-design/icons';
 import {Button, message} from 'antd';
 import {FC, memo, useCallback, useContext} from 'react';
 
@@ -22,11 +22,9 @@ const ArchiveButton: FC = memo(() => {
         ({is_archive}) => $api.patch(API.tasks(item.id), {is_archive}).then(response => response.data),
         {
             onSuccess: async () => {
+                message.success('Задача в архиве');
                 await queryClient.invalidateQueries([API.tasks(), {page}]);
                 await queryClient.invalidateQueries([API.tasks(), {id: item.id}]);
-            },
-            onError: () => {
-                message.error('Ошибка архивации/восстановления');
             },
         },
     );
@@ -40,7 +38,7 @@ const ArchiveButton: FC = memo(() => {
             {!item.is_archive ? (
                 <Button
                     htmlType="button"
-                    icon={<DeleteOutlined />}
+                    icon={<InboxOutlined />}
                     disabled={isLoading}
                     onClick={toggle}
                     loading={isLoading}

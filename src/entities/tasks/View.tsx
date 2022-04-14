@@ -12,6 +12,7 @@ import {TASK_EDIT} from '../../permissions';
 import ArchiveButton from './ArchiveButton';
 import {Context} from './Context';
 import DeleteButton from './DeleteButton';
+import DoneButton from './DoneButton';
 import FormTask from './FormTask';
 import Status from './Status';
 
@@ -52,6 +53,7 @@ const View: FC = memo(() => {
                     <Descriptions.Item>
                         <Space direction={is_done ? 'horizontal' : 'vertical'}>
                             {is_active && !is_archive && <FormTask />}
+                            {!is_done && <DoneButton />}
 
                             <Space>
                                 <DeleteButton />
