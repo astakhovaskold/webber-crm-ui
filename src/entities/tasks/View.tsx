@@ -23,7 +23,9 @@ const View: FC = memo(() => {
 
     return (
         <SpaceFull direction="vertical" size="middle">
-            {!is_active && <Alert message="Задача в архиве" type="info" />}
+            {is_archive && <Alert message="Задача в архиве" type="info" />}
+
+            {is_done && <Alert message="Задача выполнена" type="success" />}
 
             <Descriptions layout="vertical" column={1} colon={false} size="small">
                 <Descriptions.Item label="Название">{title}</Descriptions.Item>
