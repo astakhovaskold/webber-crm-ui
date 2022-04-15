@@ -2,7 +2,7 @@
  * Created by ASTAKHOV A.A. on 28.03.2022
  */
 
-import {Common, CommonDB, Timestamps} from '../../../typings/common';
+import {CommonDB, Timestamps} from '../../../typings/common';
 import {valueDateView} from '../../components/view/DateView';
 import {UserDTO} from '../../store/account/types';
 import {PaginationFilter} from '../../store/pagination/types';
@@ -22,13 +22,13 @@ export interface StatusDTO extends CommonDB {
     status_name: string;
 }
 
-export interface TaskDTO extends Common, Timestamps {
+export interface TaskDTO extends CommonDB, Timestamps {
     title: string;
     description?: string;
     is_active: boolean;
     is_archive: boolean;
     is_done: boolean;
-    author: UserDTO['id'];
+    author: UserDTO['_id'];
     customer: CustomerDTO;
     status: StatusDTO;
     deadline?: valueDateView;
@@ -36,6 +36,11 @@ export interface TaskDTO extends Common, Timestamps {
     actually?: number;
     is_fixed_price: boolean;
     price: number;
+}
+
+export interface TaskFormValues extends Omit<TaskDTO, 'status' | 'customer'> {
+    status: StatusDTO['_id'];
+    customer: CustomerDTO['_id'];
 }
 
 export interface TaskFilter extends PaginationFilter {

@@ -1,7 +1,3 @@
-export interface Common {
-    readonly id: string;
-}
-
 export interface CommonDB {
     readonly _id: string;
 }

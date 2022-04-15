@@ -1,3 +1,4 @@
+import {CustomerDTO} from '../entities/customers/types';
 import {TaskDTO} from '../entities/tasks/types';
 import {_API_URL} from '../globals';
 import {UserDTO} from '../store/account/types';
@@ -41,14 +42,14 @@ export default class API {
     }
 
     static users(): string;
-    static users(id: UserDTO['id'], command?: 'change-password'): string;
+    static users(id: UserDTO['_id'], command?: 'change-password'): string;
     static users(url: 'roles'): string;
     static users(...chunks: chunks) {
         return `${this.app}users${this.joinChunks(...chunks)}`;
     }
 
     static tasks(): string;
-    static tasks(id: TaskDTO['id']): string;
+    static tasks(id: TaskDTO['_id']): string;
     static tasks(...chunks: chunks) {
         return `${this.app}tasks${this.joinChunks(...chunks)}`;
     }
@@ -61,7 +62,7 @@ export default class API {
     }
 
     static customers(): string;
-    static customers(id: TaskDTO['id']): string;
+    static customers(id: CustomerDTO['_id']): string;
     static customers(...chunks: chunks) {
         return `${this.app}customers${this.joinChunks(...chunks)}`;
     }

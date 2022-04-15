@@ -1,8 +1,8 @@
 import {ColumnsType} from 'antd/es/table';
 
-import {Common} from '../../../typings/common';
+import {CommonDB} from '../../../typings/common';
 
-export interface PaginationTableProps<T extends Common> {
+export interface PaginationTableProps<T extends CommonDB> {
     url: string;
     columns: ColumnsType<T>;
     uid?: string;

@@ -2,15 +2,14 @@ import {CheckCircleOutlined} from '@ant-design/icons';
 import {Button, message} from 'antd';
 import {FC, memo, useCallback, useContext} from 'react';
 
-import {useMutation, useQuery, useQueryClient} from 'react-query';
+import {useMutation, useQueryClient} from 'react-query';
 
-import {PaginationResult} from '../../components/PaginationTable/types';
 import useParamsPagination from '../../hooks/pagination/useParamsPagination';
 import $api from '../../http';
 import API from '../../libs/API';
 
 import {Context} from './Context';
-import {StatusDTO, TaskDTO} from './types';
+import {TaskDTO, TaskFormValues} from './types';
 
 const ButtonStyle = {
     width: '100%',
@@ -23,25 +22,23 @@ const ArchiveButton: FC = memo(() => {
 
     const queryClient = useQueryClient();
 
-    const {data: statusDone} = useQuery<PaginationResult<StatusDTO>>(['status', {id: item.id}], () =>
-        $api.get(API.directory('status'), {params: {status: 'DONE'}}).then(response => response.data),
+    const {mutate: save, isLoading} = useMutation<TaskDTO, unknown, Pick<TaskFormValues, 'is_done'>>(
+        ({is_done}) => $api.patch(API.tasks(item._id), {is_done}),
+        {
+            onSuccess: async () => {
+                message.success('Задача выполнена');
+
+                await Promise.all([
+                    queryClient.invalidateQueries([API.tasks(), {page}]),
+                    queryClient.invalidateQueries([API.tasks(), {id: item._id}]),
+                ]);
+            },
+        },
     );
 
-    const {mutate: save, isLoading} = useMutation<
-        TaskDTO,
-        unknown,
-        Pick<TaskDTO, 'is_done'> & {status: StatusDTO['_id']}
-    >(({is_done, status}) => $api.patch(API.tasks(item.id), {is_done, status}).then(response => response.data), {
-        onSuccess: async () => {
-            message.success('Задача выполнена');
-            await queryClient.invalidateQueries([API.tasks(), {page}]);
-            await queryClient.invalidateQueries([API.tasks(), {id: item.id}]);
-        },
-    });
-
     const toggle = useCallback(() => {
-        save({is_done: !item.is_done, status: statusDone!.content[0]._id});
-    }, [item.is_done, save, statusDone]);
+        save({is_done: true});
+    }, [save]);
 
     return (
         <>

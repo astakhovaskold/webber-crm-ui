@@ -40,7 +40,7 @@ const columns: ColumnsType<TaskDTO> = [
     {
         key: 'id',
         align: 'right',
-        render: (_, {id}) => <Link to={`${id}`}>Открыть</Link>,
+        render: (_, {_id}) => <Link to={`${_id}`}>Открыть</Link>,
     },
 ];
 

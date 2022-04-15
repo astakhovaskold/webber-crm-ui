@@ -14,7 +14,7 @@ export interface CustomerDTO extends CommonDB, Timestamps {
     name: string;
     price: number;
     is_active: boolean;
-    user: UserDTO['id'];
+    user: UserDTO['_id'];
     projects?: Array<string>;
     service?: ServiceDTO;
 }

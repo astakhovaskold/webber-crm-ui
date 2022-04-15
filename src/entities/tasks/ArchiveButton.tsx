@@ -19,12 +19,16 @@ const ArchiveButton: FC = memo(() => {
     const queryClient = useQueryClient();
 
     const {mutate: save, isLoading} = useMutation<TaskDTO, unknown, Pick<TaskDTO, 'is_archive'>>(
-        ({is_archive}) => $api.patch(API.tasks(item.id), {is_archive}).then(response => response.data),
+        ({is_archive}) => $api.patch(API.tasks(item._id), {is_archive}).then(response => response.data),
         {
-            onSuccess: async () => {
-                message.success('Задача в архиве');
-                await queryClient.invalidateQueries([API.tasks(), {page}]);
-                await queryClient.invalidateQueries([API.tasks(), {id: item.id}]);
+            onSuccess: async (_, {is_archive}) => {
+                const text = is_archive ? 'Задача в архиве' : 'Задача удалена из архива';
+                message.success(text);
+
+                await Promise.all([
+                    queryClient.invalidateQueries([API.tasks(), {page}]),
+                    queryClient.invalidateQueries([API.tasks(), {id: item._id}]),
+                ]);
             },
         },
     );

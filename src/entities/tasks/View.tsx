@@ -53,7 +53,7 @@ const View: FC = memo(() => {
                     <Descriptions.Item>
                         <Space direction={is_done ? 'horizontal' : 'vertical'}>
                             {is_active && !is_archive && <FormTask />}
-                            {!is_done && <DoneButton />}
+                            {!is_done && !is_archive && <DoneButton />}
 
                             <Space>
                                 <DeleteButton />

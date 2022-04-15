@@ -20,13 +20,15 @@ const ArchiveButton: FC = memo(() => {
 
     const queryClient = useQueryClient();
 
-    const {mutate: remove, isLoading} = useMutation(() => $api.delete(API.tasks(item.id)), {
+    const {mutate: remove, isLoading} = useMutation(() => $api.delete(API.tasks(item._id)), {
         onSuccess: async () => {
             navigate('/tasks');
 
             message.success('Задача удалена');
-            await queryClient.invalidateQueries([API.tasks(), {page}]);
-            await queryClient.removeQueries([API.tasks(), {id: item.id}]);
+            await Promise.all([
+                queryClient.invalidateQueries([API.tasks(), {page}]),
+                queryClient.removeQueries([API.tasks(), {id: item._id}]),
+            ]);
         },
     });
 
