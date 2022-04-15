@@ -125,6 +125,28 @@ const FormTask: FC = memo((): JSX.Element | null => {
                         }}
                     />
 
+                    {!isCreate && (
+                        <Request
+                            url={API.directory('status')}
+                            queryKey={['status', {id: item.id}]}
+                            render={(res: PaginationResult<StatusDTO>) => {
+                                return (
+                                    <Item name="status" label="Статус" rules={[{required: true}]}>
+                                        <Select
+                                            placeholder="Статус задачи"
+                                            disabled={!res}
+                                            loading={!res}
+                                            options={res?.content.map(({_id: value, status_name: label}) => ({
+                                                value,
+                                                label,
+                                            }))}
+                                        />
+                                    </Item>
+                                );
+                            }}
+                        />
+                    )}
+
                     <Item label="Срок выполнения" name="deadline" validateFirst>
                         <DatePicker {...baseDatePickerProps} disabledDate={minToday} allowClear />
                     </Item>
@@ -158,6 +180,8 @@ const FormTask: FC = memo((): JSX.Element | null => {
                         {({getFieldValue}) => {
                             const is_fixed_price = getFieldValue('is_fixed_price');
 
+                            if (!is_fixed_price && isCreate) return null;
+
                             return (
                                 <Item name="price" label="Стоимость задачи" rules={[{type: 'number'}]}>
                                     <Number step={100} min={0} readOnly={!is_fixed_price} prefix="₽" />
@@ -165,28 +189,6 @@ const FormTask: FC = memo((): JSX.Element | null => {
                             );
                         }}
                     </Item>
-
-                    {!isCreate && (
-                        <Request
-                            url={API.directory('status')}
-                            queryKey={['status', {id: item.id}]}
-                            render={(res: PaginationResult<StatusDTO>) => {
-                                return (
-                                    <Item name="status" label="Статус" rules={[{required: true}]}>
-                                        <Select
-                                            placeholder="Статус задачи"
-                                            disabled={!res}
-                                            loading={!res}
-                                            options={res?.content.map(({_id: value, status_name: label}) => ({
-                                                value,
-                                                label,
-                                            }))}
-                                        />
-                                    </Item>
-                                );
-                            }}
-                        />
-                    )}
                 </Form>
             </Drawer>
         </>
