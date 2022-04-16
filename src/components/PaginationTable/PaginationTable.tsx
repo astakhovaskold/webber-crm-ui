@@ -30,7 +30,11 @@ function PaginationTable<T extends Common>({
 
     const query = useMemo(() => ({...params, ...filter}), [filter, params]);
 
-    const {data: list, isLoading} = useQuery<unknown, unknown, PaginationResult<T>>([url, {page}, {...filter}], () => {
+    const {
+        data: list,
+        refetch,
+        isLoading,
+    } = useQuery<unknown, unknown, PaginationResult<T>>([url, {page}, {...filter}], () => {
         return $api.get(url, {params: query}).then(response => response.data);
     });
 
@@ -65,8 +69,10 @@ function PaginationTable<T extends Common>({
                 size: pageSize,
                 ordering: nextOrdering,
             });
+
+            refetch();
         },
-        [setParams],
+        [refetch, setParams],
     );
 
     const paginationConfig = useMemo<PaginationProps>(() => {

@@ -15,6 +15,12 @@ import {TaskDTO} from './types';
 
 const columns: ColumnsType<TaskDTO> = [
     {
+        dataIndex: 'num',
+        title: '#',
+        width: WIDTH.XS,
+        sorter: true,
+    },
+    {
         dataIndex: 'title',
         title: 'Задача',
         width: WIDTH.MD,
@@ -36,6 +42,7 @@ const columns: ColumnsType<TaskDTO> = [
         title: 'Срок выполнения',
         render: (_, {deadline}) => (deadline ? <DateView date={deadline} /> : DASH),
         width: WIDTH.SM,
+        sorter: true,
     },
     {
         key: 'id',

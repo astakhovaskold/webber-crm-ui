@@ -17,6 +17,7 @@ export interface PaginationResult<T> {
 }
 
 export enum WIDTH {
+    XS = 100,
     SM = 200,
     MD = 400,
     LG = 800,
