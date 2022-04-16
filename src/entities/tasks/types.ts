@@ -2,7 +2,7 @@
  * Created by ASTAKHOV A.A. on 28.03.2022
  */
 
-import {CommonDB, Timestamps} from '../../../typings/common';
+import {Common, Num, Timestamps} from '../../../typings/common';
 import {valueDateView} from '../../components/view/DateView';
 import {UserDTO} from '../../store/account/types';
 import {PaginationFilter} from '../../store/pagination/types';
@@ -17,12 +17,12 @@ export enum STATUS {
     DONE = 'DONE',
 }
 
-export interface StatusDTO extends CommonDB {
+export interface StatusDTO extends Common {
     status: STATUS;
     status_name: string;
 }
 
-export interface TaskDTO extends CommonDB, Timestamps {
+export interface TaskDTO extends Common, Timestamps, Num {
     title: string;
     description?: string;
     is_active: boolean;

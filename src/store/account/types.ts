@@ -1,4 +1,4 @@
-import {CommonDB} from '../../../typings/common';
+import {Common} from '../../../typings/common';
 
 export enum TYPES {
     REGISTER = 'REGISTER',
@@ -19,7 +19,7 @@ export interface AccountState {
     readonly loggedOut: boolean;
 }
 
-export interface JobDTO extends CommonDB {
+export interface JobDTO extends Common {
     name: string;
 }
 
@@ -34,7 +34,7 @@ export interface UserRole {
     role_name: string;
 }
 
-export interface UserDTO extends CommonDB {
+export interface UserDTO extends Common {
     name: UserName;
     email: string;
     is_active: boolean;

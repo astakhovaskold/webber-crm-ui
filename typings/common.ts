@@ -1,5 +1,9 @@
-export interface CommonDB {
+export interface Common {
     readonly _id: string;
+}
+
+export interface Num {
+    readonly num: number;
 }
 
 export interface Timestamps {

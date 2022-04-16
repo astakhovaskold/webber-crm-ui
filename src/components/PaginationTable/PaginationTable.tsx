@@ -6,7 +6,7 @@ import {useCallback, useEffect, useMemo, useRef} from 'react';
 
 import {useQuery} from 'react-query';
 
-import {CommonDB} from '../../../typings/common';
+import {Common} from '../../../typings/common';
 import useFilterPagination from '../../hooks/pagination/useFilterPagination';
 import useParamsPagination from '../../hooks/pagination/useParamsPagination';
 
@@ -18,7 +18,7 @@ function isColumnType<T>(column: ColumnsType<T>[0]): column is ColumnType<T> {
     return 'dataIndex' in column;
 }
 
-function PaginationTable<T extends CommonDB>({
+function PaginationTable<T extends Common>({
     url,
     columns: baseColumns,
     uid = url,

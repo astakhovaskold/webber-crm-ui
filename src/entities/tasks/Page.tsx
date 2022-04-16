@@ -42,7 +42,7 @@ const Page: FC<PageProps> = memo((): JSX.Element | null => {
 
     return (
         <Context.Provider value={{item: task}}>
-            <Drawer visible onClose={onClose} width={400} title="Задача">
+            <Drawer visible onClose={onClose} width={400} title={`Задача #${task.num}`}>
                 <View />
             </Drawer>
         </Context.Provider>

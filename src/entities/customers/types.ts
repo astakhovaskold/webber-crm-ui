@@ -2,15 +2,15 @@
  * Created by ASTAKHOV A.A. on 28.03.2022
  */
 
-import {CommonDB, Timestamps} from '../../../typings/common';
+import {Common, Timestamps} from '../../../typings/common';
 import {UserDTO} from '../../store/account/types';
 
-export interface ServiceDTO extends CommonDB {
+export interface ServiceDTO extends Common {
     service: string;
     service_name: string;
 }
 
-export interface CustomerDTO extends CommonDB, Timestamps {
+export interface CustomerDTO extends Common, Timestamps {
     name: string;
     price: number;
     is_active: boolean;
