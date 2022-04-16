@@ -31,7 +31,7 @@ export default class API {
         return `${this.app}reset${this.joinChunks(...chunks)}`;
     }
 
-    static dashboard(url: 'cards'): string;
+    static dashboard(url: 'tasks'): string;
     static dashboard(...chunks: chunks) {
         return `${this.app}dashboard${this.joinChunks(...chunks)}`;
     }
