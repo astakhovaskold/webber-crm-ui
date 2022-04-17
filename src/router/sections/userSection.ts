@@ -8,20 +8,25 @@ import {RouteItem} from '../types';
 const TaskList = lazy(() => import('../../entities/tasks/List'));
 const TaskPage = lazy(() => import('../../entities/tasks/Page'));
 
-const userSection: RouteItem = {
-    path: 'tasks',
-    title: 'Задачи',
-    element: TaskList,
-    roles: USER_SECTION,
-    navigation: true,
-    children: [
-        {
-            path: ':id',
-            title: 'Задача',
-            element: TaskPage,
-            roles: TASK_VIEW,
-        },
-    ],
-};
+const CustomerList = lazy(() => import('../../entities/customers/List'));
+
+const userSection: Array<RouteItem> = [
+    {
+        path: 'tasks',
+        title: 'Задачи',
+        element: TaskList,
+        roles: USER_SECTION,
+        navigation: true,
+        children: [
+            {
+                path: ':id',
+                title: 'Задача',
+                element: TaskPage,
+                roles: TASK_VIEW,
+            },
+        ],
+    },
+    {path: 'customers', title: 'Клиенты', element: CustomerList, roles: USER_SECTION, navigation: true},
+];
 
 export default userSection;
