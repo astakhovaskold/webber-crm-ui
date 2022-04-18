@@ -10,19 +10,19 @@ import API from '../../libs/API';
 import {PageProps} from '../../router/types';
 
 import {Context} from './Context';
-import {TaskDTO} from './types';
+import {CustomerDTO} from './types';
 import View from './View';
 
 const Page: FC<PageProps> = memo((): JSX.Element | null => {
     const navigate = useNavigate();
     const {id} = useParams();
 
-    const {data: task} = useQuery<unknown, unknown, TaskDTO>(
-        [API.tasks(), {id}],
+    const {data: customer} = useQuery<unknown, unknown, CustomerDTO>(
+        [API.customers(), {id}],
         () =>
             new Promise((resolve, reject) => {
                 if (id) {
-                    return resolve($api.get(API.tasks(id)).then(response => response.data));
+                    return resolve($api.get(API.customers(id)).then(response => response.data));
                 }
 
                 reject(new Error('Задача не найдена'));
@@ -33,16 +33,16 @@ const Page: FC<PageProps> = memo((): JSX.Element | null => {
         navigate('..');
     }, [navigate]);
 
-    if (!task)
+    if (!customer)
         return (
-            <Drawer visible onClose={onClose} width={400} title="Задача">
+            <Drawer visible onClose={onClose} width={400} title="Клиент">
                 <Spin />
             </Drawer>
         );
 
     return (
-        <Context.Provider value={{item: task}}>
-            <Drawer visible onClose={onClose} width={400} title={`Задача #${task.num}`}>
+        <Context.Provider value={{item: customer}}>
+            <Drawer visible onClose={onClose} width={400} title="Клиент">
                 <View />
             </Drawer>
         </Context.Provider>

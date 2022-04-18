@@ -17,7 +17,7 @@ const ChangePasswordForm: FC = memo(() => {
 
     const {mutate, isLoading} = useMutation(
         (password: Pick<PasswordData, 'password'>) => {
-            return $api.patch(account ? API.users(account?.user.id, 'change-password') : '', password);
+            return $api.patch(account ? API.users(account?.user._id, 'change-password') : '', password);
         },
         {
             onSuccess: () => {

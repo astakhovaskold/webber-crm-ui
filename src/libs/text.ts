@@ -10,4 +10,9 @@ export const ERROR_404 = 'Здесь пока ничего нет';
 
 export const RESTRICTED_ACCESS = 'Нет доступа';
 
-export const RUB = '₽';
+export enum CURRENCY {
+    RUB = '₽',
+    USD = '$',
+    EUR = '€',
+    GBP = '£',
+}

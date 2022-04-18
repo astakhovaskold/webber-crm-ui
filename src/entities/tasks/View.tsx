@@ -4,9 +4,11 @@ import {FC, memo, useContext} from 'react';
 import {SpaceFull} from '../../components/containers';
 
 import DateView from '../../components/view/DateView';
+import PriceFormatted from '../../components/view/PriceFormatted';
+import URLFormatted from '../../components/view/URLFormatted';
 import useHasAccess from '../../hooks/useHasAccess';
 
-import {DASH, RUB} from '../../libs/text';
+import {DASH} from '../../libs/text';
 import {TASK_EDIT} from '../../permissions';
 
 import ArchiveButton from './ArchiveButton';
@@ -18,8 +20,20 @@ import Status from './Status';
 
 const View: FC = memo(() => {
     const {item} = useContext(Context);
-    const {title, description, is_active, is_archive, is_done, status, deadline, estimate, actually, price, customer} =
-        item;
+    const {
+        title,
+        description,
+        is_active,
+        is_archive,
+        is_done,
+        status,
+        deadline,
+        estimate,
+        actually,
+        price,
+        customer,
+        project,
+    } = item;
     const canEdit = useHasAccess(TASK_EDIT);
 
     return (
@@ -35,6 +49,8 @@ const View: FC = memo(() => {
 
                 <Descriptions.Item label="Клиент">{customer ? customer.name : DASH}</Descriptions.Item>
 
+                <Descriptions.Item label="Проект">{project ? <URLFormatted url={project} /> : DASH}</Descriptions.Item>
+
                 <Descriptions.Item label="Статус">
                     <Status item={status} />
                 </Descriptions.Item>
@@ -47,13 +63,15 @@ const View: FC = memo(() => {
 
                 <Descriptions.Item label="Учёт времени (ч)">{actually ?? DASH}</Descriptions.Item>
 
-                <Descriptions.Item label="Стоимость задачи">{price ? `${price} ${RUB}` : DASH}</Descriptions.Item>
+                <Descriptions.Item label="Стоимость задачи">
+                    {price ? <PriceFormatted price={price} /> : DASH}
+                </Descriptions.Item>
 
                 {canEdit && (
                     <Descriptions.Item>
                         <Space direction={is_done ? 'horizontal' : 'vertical'}>
                             {is_active && !is_archive && <FormTask />}
-                            {!is_done && <DoneButton />}
+                            {!is_done && !is_archive && <DoneButton />}
 
                             <Space>
                                 <DeleteButton />

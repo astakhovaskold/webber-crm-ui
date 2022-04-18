@@ -49,7 +49,7 @@ const all: Array<RouteItem> = [
         restrictedWithAuth: true,
     },
     {path: '*', element: NotFound, title: ERROR_404, free: true},
-    userSection,
+    ...userSection,
 ];
 
 export default all;

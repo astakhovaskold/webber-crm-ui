@@ -1,3 +1,4 @@
+import {ExclamationCircleOutlined} from '@ant-design/icons';
 import styled from '@emotion/styled';
 import {Button, Col, DatePicker, Drawer, Form, Input, InputNumber, Row, Select, Switch} from 'antd';
 import TextArea from 'antd/es/input/TextArea';
@@ -15,7 +16,7 @@ import API from '../../libs/API';
 import {CustomerDTO} from '../customers/types';
 
 import {Context} from './Context';
-import {StatusDTO, TaskDTO} from './types';
+import {StatusDTO, TaskDTO, TaskFormValues} from './types';
 
 const {Item} = Form;
 
@@ -31,13 +32,13 @@ const FormTask: FC = memo((): JSX.Element | null => {
 
     const queryClient = useQueryClient();
 
-    const isCreate = !item?.id;
+    const isCreate = !item?._id;
 
     const onClose = useCallback(() => {
         setVisible(false);
     }, []);
 
-    const {mutate: save, isLoading} = useMutation<TaskDTO, void, TaskDTO>(
+    const {mutate: save, isLoading} = useMutation<TaskDTO, void, TaskFormValues>(
         task =>
             new Promise((resolve, reject) => {
                 try {
@@ -45,7 +46,7 @@ const FormTask: FC = memo((): JSX.Element | null => {
                         return resolve($api.post(API.tasks(), task).then(response => response.data));
                     }
 
-                    return resolve($api.patch(API.tasks(item.id), task).then(response => response.data));
+                    return resolve($api.patch(API.tasks(item._id), task).then(response => response.data));
                 } catch (e) {
                     reject(new Error('Непредвиденная ошибка'));
                 }
@@ -107,7 +108,7 @@ const FormTask: FC = memo((): JSX.Element | null => {
 
                     <Request
                         url={API.customers()}
-                        queryKey={['customers', {id: item.id}]}
+                        queryKey={['customers', {id: item._id}]}
                         render={(res: PaginationResult<CustomerDTO>) => {
                             return (
                                 <Item name="customer" label="Клиент" rules={[{required: true}]}>
@@ -124,6 +125,63 @@ const FormTask: FC = memo((): JSX.Element | null => {
                             );
                         }}
                     />
+
+                    <Item
+                        noStyle
+                        shouldUpdate={(prevValues: TaskFormValues, nextValues: TaskFormValues) =>
+                            prevValues.customer !== nextValues.customer
+                        }
+                    >
+                        {({getFieldValue}) => {
+                            const customer = getFieldValue('customer');
+
+                            if (!customer) return null;
+
+                            return (
+                                <Request
+                                    url={API.customers(customer)}
+                                    queryKey={['customers', {id: customer}]}
+                                    render={(res: CustomerDTO) => {
+                                        return (
+                                            <Item name="project" label="Проект">
+                                                <Select
+                                                    placeholder="Проект"
+                                                    disabled={!res}
+                                                    loading={!res}
+                                                    options={res?.projects?.map(p => ({
+                                                        value: p,
+                                                        label: new URL(p).hostname,
+                                                    }))}
+                                                />
+                                            </Item>
+                                        );
+                                    }}
+                                />
+                            );
+                        }}
+                    </Item>
+
+                    {!isCreate && (
+                        <Request
+                            url={API.directory('status')}
+                            queryKey={['status', {id: item._id}]}
+                            render={(res: PaginationResult<StatusDTO>) => {
+                                return (
+                                    <Item name="status" label="Статус" rules={[{required: true}]}>
+                                        <Select
+                                            placeholder="Статус задачи"
+                                            disabled={!res}
+                                            loading={!res}
+                                            options={res?.content.map(({_id: value, status_name: label}) => ({
+                                                value,
+                                                label,
+                                            }))}
+                                        />
+                                    </Item>
+                                );
+                            }}
+                        />
+                    )}
 
                     <Item label="Срок выполнения" name="deadline" validateFirst>
                         <DatePicker {...baseDatePickerProps} disabledDate={minToday} allowClear />
@@ -145,18 +203,28 @@ const FormTask: FC = memo((): JSX.Element | null => {
                         </Row>
                     </Item>
 
-                    <Item name="is_fixed_price" label="Фиксированная стоимость" valuePropName="checked">
+                    <Item
+                        name="is_fixed_price"
+                        label="Фиксированная стоимость"
+                        tooltip={{
+                            icon: <ExclamationCircleOutlined />,
+                            title: 'Когда выключено, стоимость считается автоматически',
+                        }}
+                        valuePropName="checked"
+                    >
                         <Switch />
                     </Item>
 
                     <Item
                         noStyle
-                        shouldUpdate={(prevValues, nextValues) =>
+                        shouldUpdate={(prevValues: TaskFormValues, nextValues: TaskFormValues) =>
                             prevValues.is_fixed_price !== nextValues.is_fixed_price
                         }
                     >
                         {({getFieldValue}) => {
-                            const is_fixed_price = getFieldValue('is_fixed_price');
+                            const is_fixed_price: TaskFormValues['is_fixed_price'] = getFieldValue('is_fixed_price');
+
+                            if (!is_fixed_price && isCreate) return null;
 
                             return (
                                 <Item name="price" label="Стоимость задачи" rules={[{type: 'number'}]}>
@@ -165,28 +233,6 @@ const FormTask: FC = memo((): JSX.Element | null => {
                             );
                         }}
                     </Item>
-
-                    {!isCreate && (
-                        <Request
-                            url={API.directory('status')}
-                            queryKey={['status', {id: item.id}]}
-                            render={(res: PaginationResult<StatusDTO>) => {
-                                return (
-                                    <Item name="status" label="Статус" rules={[{required: true}]}>
-                                        <Select
-                                            placeholder="Статус задачи"
-                                            disabled={!res}
-                                            loading={!res}
-                                            options={res?.content.map(({_id: value, status_name: label}) => ({
-                                                value,
-                                                label,
-                                            }))}
-                                        />
-                                    </Item>
-                                );
-                            }}
-                        />
-                    )}
                 </Form>
             </Drawer>
         </>

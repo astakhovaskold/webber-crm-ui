@@ -16,18 +16,18 @@ const DeleteButton: FC = memo(() => {
     const {item} = useContext(Context);
     const navigate = useNavigate();
 
-    const [{page}] = useParamsPagination(API.tasks());
+    const [{page}] = useParamsPagination(API.customers());
 
     const queryClient = useQueryClient();
 
-    const {mutate: remove, isLoading} = useMutation(() => $api.delete(API.tasks(item._id)), {
+    const {mutate: remove, isLoading} = useMutation(() => $api.delete(API.customers(item._id)), {
         onSuccess: async () => {
-            navigate('/tasks');
+            navigate('/customers');
 
-            message.success('Задача удалена');
+            message.success('Клиент удален');
             await Promise.all([
-                queryClient.invalidateQueries([API.tasks(), {page}]),
-                queryClient.removeQueries([API.tasks(), {id: item._id}]),
+                queryClient.invalidateQueries([API.customers(), {page}]),
+                queryClient.removeQueries([API.customers(), {id: item._id}]),
             ]);
         },
     });
@@ -39,7 +39,13 @@ const DeleteButton: FC = memo(() => {
     return (
         <>
             {item && (
-                <Popconfirm title="Удалить задачу?" onConfirm={toggle} okType="danger" okText="Удалить" placement="top">
+                <Popconfirm
+                    title="Удалить клиента?"
+                    onConfirm={toggle}
+                    okType="danger"
+                    okText="Удалить"
+                    placement="top"
+                >
                     <Button htmlType="button" icon={<DeleteOutlined />} danger disabled={isLoading} loading={isLoading}>
                         Удалить
                     </Button>
