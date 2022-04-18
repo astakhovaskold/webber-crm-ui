@@ -18,7 +18,7 @@ const Number = styled(InputNumber)`
     width: 100%;
 `;
 
-const FormTask: FC = memo((): JSX.Element | null => {
+const FormCustomer: FC = memo((): JSX.Element | null => {
     const [visible, setVisible] = useState(false);
     const {item} = useContext(Context);
 
@@ -92,7 +92,7 @@ const FormTask: FC = memo((): JSX.Element | null => {
     return (
         <>
             <Button type="primary" style={ButtonStyle} onClick={() => setVisible(true)}>
-                {isCreate ? 'Создать задачу' : 'Изменить'}
+                {isCreate ? 'Новый клиент' : 'Изменить'}
             </Button>
 
             <Drawer
@@ -126,4 +126,4 @@ const FormTask: FC = memo((): JSX.Element | null => {
     );
 });
 
-export default FormTask;
+export default FormCustomer;

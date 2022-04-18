@@ -7,16 +7,17 @@ import PriceFormatted from '../../components/view/PriceFormatted';
 import useHasAccess from '../../hooks/useHasAccess';
 
 import {DASH} from '../../libs/text';
-import {TASK_EDIT} from '../../permissions';
+import {CUSTOMER_EDIT} from '../../permissions';
 
 import ArchiveButton from './ArchiveButton';
 import {Context} from './Context';
+import DeleteButton from './DeleteButton';
 import FormCustomer from './FormCustomer';
 
 const View: FC = memo(() => {
     const {item} = useContext(Context);
     const {name, price, is_active, is_archive, projects} = item;
-    const canEdit = useHasAccess(TASK_EDIT);
+    const canEdit = useHasAccess(CUSTOMER_EDIT);
 
     return (
         <SpaceFull direction="vertical" size="middle">
@@ -45,6 +46,7 @@ const View: FC = memo(() => {
                         <Space direction="vertical">
                             {is_active && !is_archive && <FormCustomer />}
                             <Space>
+                                <DeleteButton />
                                 <ArchiveButton />
                             </Space>
                         </Space>
