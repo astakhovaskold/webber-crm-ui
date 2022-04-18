@@ -126,6 +126,41 @@ const FormTask: FC = memo((): JSX.Element | null => {
                         }}
                     />
 
+                    <Item
+                        noStyle
+                        shouldUpdate={(prevValues: TaskFormValues, nextValues: TaskFormValues) =>
+                            prevValues.customer !== nextValues.customer
+                        }
+                    >
+                        {({getFieldValue}) => {
+                            const customer = getFieldValue('customer');
+
+                            if (!customer) return null;
+
+                            return (
+                                <Request
+                                    url={API.customers(customer)}
+                                    queryKey={['customers', {id: customer}]}
+                                    render={(res: CustomerDTO) => {
+                                        return (
+                                            <Item name="project" label="Проект">
+                                                <Select
+                                                    placeholder="Проект"
+                                                    disabled={!res}
+                                                    loading={!res}
+                                                    options={res?.projects?.map(p => ({
+                                                        value: p,
+                                                        label: new URL(p).hostname,
+                                                    }))}
+                                                />
+                                            </Item>
+                                        );
+                                    }}
+                                />
+                            );
+                        }}
+                    </Item>
+
                     {!isCreate && (
                         <Request
                             url={API.directory('status')}

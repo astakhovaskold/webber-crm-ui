@@ -30,6 +30,7 @@ export interface TaskDTO extends Common, Timestamps, Num {
     is_done: boolean;
     author: UserDTO['_id'];
     customer: CustomerDTO;
+    project: string;
     status: StatusDTO;
     deadline?: valueDateView;
     estimate?: number;

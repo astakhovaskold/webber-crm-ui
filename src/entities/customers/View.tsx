@@ -4,6 +4,7 @@ import {FC, memo, useContext} from 'react';
 import {SpaceFull} from '../../components/containers';
 
 import PriceFormatted from '../../components/view/PriceFormatted';
+import URLFormatted from '../../components/view/URLFormatted';
 import useHasAccess from '../../hooks/useHasAccess';
 
 import {DASH} from '../../libs/text';
@@ -32,9 +33,7 @@ const View: FC = memo(() => {
                     {projects && projects.length > 0
                         ? projects.map(project => (
                               <>
-                                  <a key={project} href={project} target="_blank" rel="noreferrer">
-                                      {new URL(project).hostname}
-                                  </a>
+                                  <URLFormatted url={project} />
                                   &nbsp;&nbsp;&nbsp;
                               </>
                           ))

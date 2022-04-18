@@ -113,11 +113,11 @@ const FormCustomer: FC = memo((): JSX.Element | null => {
                         <Input autoComplete="name" />
                     </Item>
 
-                    <Item name="price" label="Цена" rules={[{type: 'number', min: 0}]}>
+                    <Item name="price" label="Цена" rules={[{required: true}, {type: 'number', min: 0}]}>
                         <Number step={0.25} min={0} />
                     </Item>
 
-                    <Item name="projects" label="Проекты" rules={[projectsValidator]}>
+                    <Item name="projects" label="Проекты" rules={[{required: true}, projectsValidator]}>
                         <Select<CustomerDTO['projects']> mode="tags" placeholder="Проекты" />
                     </Item>
                 </Form>

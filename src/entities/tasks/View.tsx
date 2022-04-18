@@ -5,6 +5,7 @@ import {SpaceFull} from '../../components/containers';
 
 import DateView from '../../components/view/DateView';
 import PriceFormatted from '../../components/view/PriceFormatted';
+import URLFormatted from '../../components/view/URLFormatted';
 import useHasAccess from '../../hooks/useHasAccess';
 
 import {DASH} from '../../libs/text';
@@ -19,8 +20,20 @@ import Status from './Status';
 
 const View: FC = memo(() => {
     const {item} = useContext(Context);
-    const {title, description, is_active, is_archive, is_done, status, deadline, estimate, actually, price, customer} =
-        item;
+    const {
+        title,
+        description,
+        is_active,
+        is_archive,
+        is_done,
+        status,
+        deadline,
+        estimate,
+        actually,
+        price,
+        customer,
+        project,
+    } = item;
     const canEdit = useHasAccess(TASK_EDIT);
 
     return (
@@ -35,6 +48,8 @@ const View: FC = memo(() => {
                 <Descriptions.Item label="Описание">{description ?? DASH}</Descriptions.Item>
 
                 <Descriptions.Item label="Клиент">{customer ? customer.name : DASH}</Descriptions.Item>
+
+                <Descriptions.Item label="Проект">{project ? <URLFormatted url={project} /> : DASH}</Descriptions.Item>
 
                 <Descriptions.Item label="Статус">
                     <Status item={status} />
