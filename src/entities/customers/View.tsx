@@ -1,4 +1,4 @@
-import {Descriptions} from 'antd';
+import {Alert, Descriptions, Space} from 'antd';
 import {FC, memo, useContext} from 'react';
 
 import {SpaceFull} from '../../components/containers';
@@ -9,16 +9,19 @@ import useHasAccess from '../../hooks/useHasAccess';
 import {DASH} from '../../libs/text';
 import {TASK_EDIT} from '../../permissions';
 
+import ArchiveButton from './ArchiveButton';
 import {Context} from './Context';
 import FormCustomer from './FormCustomer';
 
 const View: FC = memo(() => {
     const {item} = useContext(Context);
-    const {name, price, is_active, projects} = item;
+    const {name, price, is_active, is_archive, projects} = item;
     const canEdit = useHasAccess(TASK_EDIT);
 
     return (
         <SpaceFull direction="vertical" size="middle">
+            {is_archive && <Alert message="Клиент в архиве" type="info" />}
+
             <Descriptions layout="vertical" column={1} colon={false} size="small">
                 <Descriptions.Item label="Наименование">{name}</Descriptions.Item>
 
@@ -37,7 +40,16 @@ const View: FC = memo(() => {
                         : DASH}
                 </Descriptions.Item>
 
-                {canEdit && <Descriptions.Item>{is_active && <FormCustomer />}</Descriptions.Item>}
+                {canEdit && (
+                    <Descriptions.Item>
+                        <Space direction="vertical">
+                            {is_active && !is_archive && <FormCustomer />}
+                            <Space>
+                                <ArchiveButton />
+                            </Space>
+                        </Space>
+                    </Descriptions.Item>
+                )}
             </Descriptions>
         </SpaceFull>
     );
