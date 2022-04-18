@@ -1,6 +1,6 @@
 import {lazy} from 'react';
 
-import {USER_SECTION, TASK_VIEW} from '../../permissions';
+import {USER_SECTION, TASK_VIEW, CUSTOMER_VIEW} from '../../permissions';
 import {RouteItem} from '../types';
 
 // const Section = lazy(() => import('../Section'));
@@ -9,6 +9,7 @@ const TaskList = lazy(() => import('../../entities/tasks/List'));
 const TaskPage = lazy(() => import('../../entities/tasks/Page'));
 
 const CustomerList = lazy(() => import('../../entities/customers/List'));
+const CustomerPage = lazy(() => import('../../entities/customers/Page'));
 
 const userSection: Array<RouteItem> = [
     {
@@ -26,7 +27,21 @@ const userSection: Array<RouteItem> = [
             },
         ],
     },
-    {path: 'customers', title: 'Клиенты', element: CustomerList, roles: USER_SECTION, navigation: true},
+    {
+        path: 'customers',
+        title: 'Клиенты',
+        element: CustomerList,
+        roles: USER_SECTION,
+        navigation: true,
+        children: [
+            {
+                path: ':id',
+                title: 'Клиент',
+                element: CustomerPage,
+                roles: CUSTOMER_VIEW,
+            },
+        ],
+    },
 ];
 
 export default userSection;

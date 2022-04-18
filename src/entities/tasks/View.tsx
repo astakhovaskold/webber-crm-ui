@@ -4,9 +4,10 @@ import {FC, memo, useContext} from 'react';
 import {SpaceFull} from '../../components/containers';
 
 import DateView from '../../components/view/DateView';
+import PriceFormatted from '../../components/view/PriceFormatted';
 import useHasAccess from '../../hooks/useHasAccess';
 
-import {DASH, RUB} from '../../libs/text';
+import {DASH} from '../../libs/text';
 import {TASK_EDIT} from '../../permissions';
 
 import ArchiveButton from './ArchiveButton';
@@ -47,7 +48,9 @@ const View: FC = memo(() => {
 
                 <Descriptions.Item label="Учёт времени (ч)">{actually ?? DASH}</Descriptions.Item>
 
-                <Descriptions.Item label="Стоимость задачи">{price ? `${price} ${RUB}` : DASH}</Descriptions.Item>
+                <Descriptions.Item label="Стоимость задачи">
+                    {price ? <PriceFormatted price={price} /> : DASH}
+                </Descriptions.Item>
 
                 {canEdit && (
                     <Descriptions.Item>

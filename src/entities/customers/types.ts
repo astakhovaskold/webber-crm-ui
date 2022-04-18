@@ -18,3 +18,7 @@ export interface CustomerDTO extends Common, Timestamps {
     projects?: Array<string>;
     service?: ServiceDTO;
 }
+
+export interface CustomerFormValues extends Omit<CustomerDTO, 'service'> {
+    service?: ServiceDTO['_id'];
+}
