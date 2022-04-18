@@ -4,6 +4,7 @@
 
 import {Common, Timestamps} from '../../../typings/common';
 import {UserDTO} from '../../store/account/types';
+import {PaginationFilter} from '../../store/pagination/types';
 
 export interface ServiceDTO extends Common {
     service: string;
@@ -14,6 +15,7 @@ export interface CustomerDTO extends Common, Timestamps {
     name: string;
     price: number;
     is_active: boolean;
+    is_archive: boolean;
     user: UserDTO['_id'];
     projects?: Array<string>;
     service?: ServiceDTO;
@@ -21,4 +23,8 @@ export interface CustomerDTO extends Common, Timestamps {
 
 export interface CustomerFormValues extends Omit<CustomerDTO, 'service'> {
     service?: ServiceDTO['_id'];
+}
+
+export interface CustomerFilter extends PaginationFilter {
+    is_archive: boolean;
 }
