@@ -4,14 +4,14 @@ import {FC, memo} from 'react';
 
 import {Link} from 'react-router-dom';
 
-import {AuthFormWrapper, FullSize} from '../../components/containers';
+import {AuthFormWrapper, FullScreenContainer} from '../../components/containers';
 import {PageProps} from '../../router/types';
 
 import ResetPasswordForm from './ResetPasswordForm';
 
 const ResetPasswordPage: FC<PageProps> = memo(() => {
     return (
-        <FullSize>
+        <FullScreenContainer>
             <Space size="small" direction="vertical">
                 <AuthFormWrapper>
                     <ResetPasswordForm />
@@ -23,7 +23,7 @@ const ResetPasswordPage: FC<PageProps> = memo(() => {
                     </Button>
                 </Link>
             </Space>
-        </FullSize>
+        </FullScreenContainer>
     );
 });
 

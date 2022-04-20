@@ -1,9 +1,11 @@
 import styled from '@emotion/styled';
-import {Space} from 'antd';
+import {Layout, Space} from 'antd';
 import {SpaceProps} from 'antd/es';
 import {FC} from 'react';
 
-export const FullSize = styled.div`
+const {Content} = Layout;
+
+export const FullScreenContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -16,19 +18,9 @@ export const SpaceFull: FC<SpaceProps> = styled(Space)`
     width: 100%;
 `;
 
-export const Container = styled.div`
-    max-width: 1400px;
-    width: 100%;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
+export const Container = styled(Content)`
     padding: 1.5rem;
-`;
-
-export const ContainerCentered = styled(Container)`
-    position: fixed;
-    inset: 0;
-    justify-content: center;
+    background-color: #eee;
 `;
 
 export const AuthFormWrapper = styled.div`
