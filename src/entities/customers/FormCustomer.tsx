@@ -6,6 +6,7 @@ import {FC, memo, useCallback, useContext, useMemo, useState} from 'react';
 
 import {useMutation, useQueryClient} from 'react-query';
 
+import {BaseDrawerProps} from '../../components/BaseProps';
 import $api from '../../http';
 import API from '../../libs/API';
 
@@ -96,7 +97,7 @@ const FormCustomer: FC = memo((): JSX.Element | null => {
             </Button>
 
             <Drawer
-                width={400}
+                {...BaseDrawerProps}
                 visible={visible}
                 closable={!isLoading}
                 maskClosable={!isLoading}
@@ -107,6 +108,7 @@ const FormCustomer: FC = memo((): JSX.Element | null => {
                         Сохранить
                     </Button>
                 }
+                title="Новый клиент"
             >
                 <Form name="formCustomer" colon={false} layout="vertical" initialValues={initialValues} onFinish={save}>
                     <Item name="name" label="Наименование" rules={[{required: true}, {type: 'string', max: 64}]}>
