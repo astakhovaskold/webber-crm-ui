@@ -6,9 +6,7 @@ module.exports = {
     '@font-primary': 'Inter, sans-serif',
     '@font-secondary': 'IBM Plex Sans, sans-serif',
 
-    '@btn-border-radius-base': '20px',
+    '@btn-border-radius-base': '5px',
     '@table-border-radius-base': '20px',
     '@card-radius': '10px',
-
-    '@line-height-base': '140%',
 };
