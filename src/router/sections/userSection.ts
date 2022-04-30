@@ -11,6 +11,8 @@ const TaskPage = lazy(() => import('../../entities/tasks/Page'));
 const CustomerList = lazy(() => import('../../entities/customers/List'));
 const CustomerPage = lazy(() => import('../../entities/customers/Page'));
 
+const ProfilePage = lazy(() => import('../../entities/profile/Page'));
+
 const userSection: Array<RouteItem> = [
     {
         path: 'tasks',
@@ -41,6 +43,13 @@ const userSection: Array<RouteItem> = [
                 roles: CUSTOMER_VIEW,
             },
         ],
+    },
+    {
+        path: 'profile',
+        title: 'Профиль',
+        element: ProfilePage,
+        roles: USER_SECTION,
+        navigation: false,
     },
 ];
 

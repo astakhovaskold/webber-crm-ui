@@ -66,4 +66,9 @@ export default class API {
     static customers(...chunks: chunks) {
         return `${this.app}customers${this.joinChunks(...chunks)}`;
     }
+
+    static profile(): string;
+    static profile(...chunks: chunks) {
+        return `${this.app}profile${this.joinChunks(...chunks)}`;
+    }
 }

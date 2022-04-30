@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import {Avatar, Button, Col, Divider, Popover, Row, Typography} from 'antd';
 import {FC, memo} from 'react';
 import {useDispatch} from 'react-redux';
-import {Link} from 'react-router-dom';
+import {Link, NavLink} from 'react-router-dom';
 
 import {_DEFAULT_NAME} from '../../globals';
 import useAccount from '../../hooks/useAccount';
@@ -65,6 +65,12 @@ const ProfileButton: FC = memo(() => {
 
                             <Text type="secondary">{account?.user.email}</Text>
                         </UserInfo>
+                    </Row>
+
+                    <Divider />
+
+                    <Row align="middle">
+                        <NavLink to="/profile">Перейти в профиль</NavLink>
                     </Row>
 
                     <Divider />

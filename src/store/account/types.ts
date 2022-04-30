@@ -23,7 +23,7 @@ export interface JobDTO extends Common {
     name: string;
 }
 
-interface UserName {
+export interface UserName {
     first: string;
     last: string;
     middle: string;

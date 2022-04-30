@@ -1,15 +1,13 @@
 import {FC, memo} from 'react';
 
-import {UserDTO} from '../../store/account/types';
+import {UserName} from '../../store/account/types';
 
 interface NameFormattedProps {
-    item: UserDTO;
+    name: UserName;
 }
 
-const NameFormatted: FC<NameFormattedProps> = memo(({item}) => {
-    const {
-        name: {first, last},
-    } = item;
+const NameFormatted: FC<NameFormattedProps> = memo(({name}) => {
+    const {first, last} = name;
     return <>{[first, last].join(' ')}</>;
 });
 
