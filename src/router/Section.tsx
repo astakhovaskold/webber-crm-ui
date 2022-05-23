@@ -4,7 +4,7 @@ import {FC, memo, useEffect, useMemo} from 'react';
 
 import {NavLink, Outlet, useLocation, useNavigate} from 'react-router-dom';
 
-import PageContainer from '../components/view/PageContainer';
+import Page from '../components/view/Page';
 import useAccount from '../hooks/useAccount';
 import Utils from '../libs/Utils';
 
@@ -59,7 +59,7 @@ const Section: FC<PageProps> = memo(({path: parentPath, title: parentTitle, chil
     }, [pathname, parentPath, first, navigate]);
 
     return (
-        <PageContainer>
+        <Page>
             <Card
                 title={
                     first ? (
@@ -79,7 +79,7 @@ const Section: FC<PageProps> = memo(({path: parentPath, title: parentTitle, chil
             >
                 <Outlet />
             </Card>
-        </PageContainer>
+        </Page>
     );
 });
 

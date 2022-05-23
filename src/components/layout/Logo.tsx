@@ -67,8 +67,6 @@ const Logo: FC<LogoProps> = memo(({dark = false}) => {
     return (
         <Container dark={dark}>
             <Title data-postfix="CRM">WEBBER</Title>
-
-            <Title>FREELANCE</Title>
         </Container>
     );
 });

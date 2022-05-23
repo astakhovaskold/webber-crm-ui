@@ -7,6 +7,7 @@ import {FC, memo, useCallback, useContext, useMemo, useState} from 'react';
 
 import {useMutation, useQueryClient} from 'react-query';
 
+import {BaseDrawerProps} from '../../components/BaseProps';
 import {PaginationResult} from '../../components/PaginationTable/types';
 import Request from '../../components/utils/Request';
 import useDateUtils from '../../hooks/useDateUtils';
@@ -85,7 +86,7 @@ const FormTask: FC = memo((): JSX.Element | null => {
             </Button>
 
             <Drawer
-                width={400}
+                {...BaseDrawerProps}
                 visible={visible}
                 closable={!isLoading}
                 maskClosable={!isLoading}
@@ -96,6 +97,7 @@ const FormTask: FC = memo((): JSX.Element | null => {
                         Сохранить
                     </Button>
                 }
+                title="Новая задача"
             >
                 <Form name="formTask" colon={false} layout="vertical" initialValues={initialValues} onFinish={save}>
                     <Item name="title" label="Название задачи" rules={[{required: true}, {type: 'string', max: 64}]}>

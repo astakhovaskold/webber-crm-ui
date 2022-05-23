@@ -16,7 +16,7 @@ const NavItem = styled(NavLink)`
     &:active,
     &:focus,
     &:visited {
-        color: #fff;
+        color: var(--main-color);
         opacity: 0.7;
         text-decoration: none;
     }
@@ -24,7 +24,7 @@ const NavItem = styled(NavLink)`
     &.active,
     &:hover {
         opacity: 1;
-        color: #fff;
+        color: var(--main-color);
     }
 `;
 

@@ -1,16 +1,24 @@
-import {FC, memo} from 'react';
+import {FC, memo, useMemo} from 'react';
 
-import {UserDTO} from '../../store/account/types';
-
-interface NameFormattedProps {
-    item: UserDTO;
+interface UserName {
+    first_name: string;
+    last_name?: string;
+    middle_name?: string;
 }
 
-const NameFormatted: FC<NameFormattedProps> = memo(({item}) => {
-    const {
-        name: {first, last},
-    } = item;
-    return <>{[first, last].join(' ')}</>;
+interface NameFormattedProps {
+    name: UserName;
+}
+
+const NameFormatted: FC<NameFormattedProps> = memo(({name}) => {
+    const {first_name, last_name, middle_name} = name;
+
+    const nameToFormat = useMemo(
+        () => (middle_name ? [last_name, first_name, middle_name] : [first_name, last_name]),
+        [first_name, last_name, middle_name],
+    );
+
+    return <>{nameToFormat.join(' ')}</>;
 });
 
 export default NameFormatted;

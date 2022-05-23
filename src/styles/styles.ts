@@ -9,12 +9,18 @@ export const globalStyle = css`
 
     :root {
         --main-color: #fff;
+        --secondary-color: #14387a;
         --error-color: #861e1e;
-        --color-dark: #001529;
+
+        --color-dark: #2d3748;
         --color-text-dark: #595b5d;
 
         --font-primary: 'Inter', sans-serif;
         --font-secondary: 'IBM Plex Sans', sans-serif;
+    }
+
+    body {
+        font-family: var(--font-primary);
     }
 
     #app {
@@ -45,16 +51,5 @@ export const globalStyle = css`
 
     .ant-popover.ant-popover-0 .ant-popover-inner-content {
         @apply p-0;
-    }
-
-    /* Switch */
-
-    .ant-switch-handle {
-        width: 16px !important;
-        height: 16px !important;
-    }
-
-    .ant-switch-checked .ant-switch-handle {
-        left: calc(100% - 16px - 4px) !important;
     }
 `;

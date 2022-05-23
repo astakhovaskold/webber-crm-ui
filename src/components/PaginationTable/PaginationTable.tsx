@@ -34,7 +34,7 @@ function PaginationTable<T extends Common>({
         data: list,
         refetch,
         isLoading,
-    } = useQuery<unknown, unknown, PaginationResult<T>>([url, {page}, {...filter}], () => {
+    } = useQuery<unknown, unknown, PaginationResult<T>>([url, {page, size}, {...filter}], () => {
         return $api.get(url, {params: query}).then(response => response.data);
     });
 
@@ -79,7 +79,7 @@ function PaginationTable<T extends Common>({
         return {
             current: page + 1,
             pageSize: size,
-            total: list?.total_items ?? 0,
+            total: list?.total_elements ?? 0,
             showSizeChanger: true,
             pageSizeOptions: ['25', '50'],
             showTotal: total => `Найдено записей ${total}`,

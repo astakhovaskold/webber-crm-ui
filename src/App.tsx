@@ -1,8 +1,11 @@
 import {Global} from '@emotion/react';
+import {Layout} from 'antd';
 import {memo} from 'react';
 
 import {Outlet} from 'react-router-dom';
 
+import {Container} from './components/containers';
+import Footer from './components/layout/Footer';
 import Header from './components/layout/Header';
 import useAuth from './hooks/useAuth';
 import Router from './router/Router';
@@ -14,10 +17,24 @@ const App = memo(() => {
     return (
         <>
             <Global styles={globalStyle} />
-            {isAuth && <Header />}
 
-            <Router />
-            <Outlet />
+            <Layout>
+                {isAuth && <Header />}
+
+                {isAuth ? (
+                    <Container>
+                        <Router />
+                        <Outlet />
+                    </Container>
+                ) : (
+                    <>
+                        <Router />
+                        <Outlet />
+                    </>
+                )}
+
+                {isAuth && <Footer />}
+            </Layout>
         </>
     );
 });

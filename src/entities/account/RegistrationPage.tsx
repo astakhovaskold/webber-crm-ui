@@ -3,14 +3,14 @@ import {FC, memo} from 'react';
 
 import {Link} from 'react-router-dom';
 
-import {AuthFormWrapper, FullSize} from '../../components/containers';
+import {AuthFormWrapper, FullScreenContainer} from '../../components/containers';
 import {PageProps} from '../../router/types';
 
 import RegistrationForm from './RegistrationForm';
 
 const RegistrationPage: FC<PageProps> = memo(() => {
     return (
-        <FullSize>
+        <FullScreenContainer>
             <Space size="large" direction="vertical" align="center">
                 <AuthFormWrapper>
                     <RegistrationForm />
@@ -21,7 +21,7 @@ const RegistrationPage: FC<PageProps> = memo(() => {
                     <Link to="/login">Войти</Link>
                 </div>
             </Space>
-        </FullSize>
+        </FullScreenContainer>
     );
 });
 

@@ -12,7 +12,7 @@ export interface PaginationTableProps<T extends Common> {
 
 export interface PaginationResult<T> {
     content: Array<T>;
-    total_items: number | null;
+    total_elements: number | null;
     total_pages: number | null;
 }
 

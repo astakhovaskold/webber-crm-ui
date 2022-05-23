@@ -4,6 +4,7 @@ import {FC, memo, useCallback} from 'react';
 import {useQuery} from 'react-query';
 import {useNavigate, useParams} from 'react-router-dom';
 
+import {BaseDrawerProps} from '../../components/BaseProps';
 import $api from '../../http';
 import API from '../../libs/API';
 
@@ -35,14 +36,14 @@ const Page: FC<PageProps> = memo((): JSX.Element | null => {
 
     if (!customer)
         return (
-            <Drawer visible onClose={onClose} width={400} title="Клиент">
+            <Drawer {...BaseDrawerProps} visible onClose={onClose} title="Клиент">
                 <Spin />
             </Drawer>
         );
 
     return (
         <Context.Provider value={{item: customer}}>
-            <Drawer visible onClose={onClose} width={400} title="Клиент">
+            <Drawer {...BaseDrawerProps} visible onClose={onClose} title="Клиент">
                 <View />
             </Drawer>
         </Context.Provider>
