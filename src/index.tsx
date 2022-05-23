@@ -14,7 +14,7 @@ import {logGreeting} from './libs/log';
 import validateMessages from './libs/validateMessages';
 import createStore from './store/store';
 
-import 'antd/dist/antd.less';
+import 'antd/dist/antd.css';
 
 moment.locale('ru');
 
