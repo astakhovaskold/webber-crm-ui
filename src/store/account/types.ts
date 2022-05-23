@@ -1,4 +1,4 @@
-import {Common} from '../../../typings/common';
+import {Common, Timestamps} from '../../../typings/common';
 
 export enum TYPES {
     REGISTER = 'REGISTER',
@@ -23,22 +23,18 @@ export interface JobDTO extends Common {
     name: string;
 }
 
-export interface UserName {
-    first: string;
-    last: string;
-    middle: string;
-}
-
-export interface UserRole {
+export interface RoleDTO {
     role: ROLE;
     role_name: string;
 }
 
-export interface UserDTO extends Common {
-    name: UserName;
+export interface UserDTO extends Common, Timestamps {
+    first_name: string;
+    last_name?: string;
+    middle_name?: string;
     email: string;
     is_active: boolean;
-    role: UserRole;
+    role: RoleDTO;
     job?: JobDTO;
 }
 

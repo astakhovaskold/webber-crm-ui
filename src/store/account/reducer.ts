@@ -37,6 +37,12 @@ export const accountReducer = (state: AccountState = initialState, action: actio
                 loggedOut: true,
             };
 
+        case TYPES.SET_AUTH:
+            return {
+                ...state,
+                account: action.data,
+            };
+
         default:
             return state;
     }
