@@ -97,7 +97,7 @@ const FormTask: FC = memo((): JSX.Element | null => {
                         Сохранить
                     </Button>
                 }
-                title="Новая задача"
+                title={isCreate ? 'Новая задача' : 'Изменить задачу'}
             >
                 <Form name="formTask" colon={false} layout="vertical" initialValues={initialValues} onFinish={save}>
                     <Item name="title" label="Название задачи" rules={[{required: true}, {type: 'string', max: 64}]}>

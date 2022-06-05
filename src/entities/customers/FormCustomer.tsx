@@ -108,7 +108,7 @@ const FormCustomer: FC = memo((): JSX.Element | null => {
                         Сохранить
                     </Button>
                 }
-                title="Новый клиент"
+                title={isCreate ? 'Новый клиент' : 'Изменить клиента'}
             >
                 <Form name="formCustomer" colon={false} layout="vertical" initialValues={initialValues} onFinish={save}>
                     <Item name="name" label="Наименование" rules={[{required: true}, {type: 'string', max: 64}]}>
