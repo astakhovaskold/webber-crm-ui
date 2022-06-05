@@ -36,12 +36,12 @@ const FormCustomer: FC = memo((): JSX.Element | null => {
             validator(_, value: Array<string>) {
                 return new Promise((resolve, reject) => {
                     try {
-                        const result = value.every(v => new URL(v));
+                        const result = value.every(v => (v.includes('http') ? new URL(v) : true));
 
                         if (result) {
                             resolve('');
                         } else {
-                            reject(new Error('Вводите только корректные URL-адреса'));
+                            reject(new Error('Вводите только URL-адреса или название проекта'));
                         }
                     } catch (e) {
                         reject(new Error('Вводите только корректные URL-адреса'));
