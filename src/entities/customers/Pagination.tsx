@@ -17,7 +17,7 @@ const columns: ColumnsType<CustomerDTO> = [
     },
     {
         dataIndex: 'price',
-        title: 'Цена',
+        title: 'Цена (руб./ч)',
         width: WIDTH.SM,
     },
     {

@@ -115,7 +115,7 @@ const FormCustomer: FC = memo((): JSX.Element | null => {
                         <Input autoComplete="name" />
                     </Item>
 
-                    <Item name="price" label="Цена" rules={[{required: true}, {type: 'number', min: 0}]}>
+                    <Item name="price" label="Цена (руб./ч)" rules={[{required: true}, {type: 'number', min: 0}]}>
                         <Number step={0.25} min={0} />
                     </Item>
 

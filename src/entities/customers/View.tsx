@@ -27,7 +27,9 @@ const View: FC = memo(() => {
             <Descriptions layout="vertical" column={1} colon={false} size="small">
                 <Descriptions.Item label="Наименование">{name}</Descriptions.Item>
 
-                <Descriptions.Item label="Цена">{price ? <PriceFormatted price={price} /> : DASH}</Descriptions.Item>
+                <Descriptions.Item label="Цена (руб./ч)">
+                    {price ? <PriceFormatted price={price} /> : DASH}
+                </Descriptions.Item>
 
                 <Descriptions.Item label="Проекты">
                     {projects && projects.length > 0
