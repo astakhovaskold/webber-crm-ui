@@ -10,7 +10,7 @@ export default class API {
     private constructor() {}
 
     static get base(): string {
-        return typeof process.env.API_URL !== 'undefined' ? process.env.API_URL : _API_URL;
+        return typeof import.meta.env.API_URL !== 'undefined' ? import.meta.env.API_URL : _API_URL;
     }
 
     static get prefix(): string {
