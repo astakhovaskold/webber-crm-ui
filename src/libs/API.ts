@@ -1,6 +1,5 @@
 import {CustomerDTO} from '../entities/customers/types';
 import {TaskDTO} from '../entities/tasks/types';
-import {_API_URL} from '../globals';
 import {UserDTO} from '../store/account/types';
 
 type chunks = Array<unknown>;
@@ -10,7 +9,8 @@ export default class API {
     private constructor() {}
 
     static get base(): string {
-        return typeof import.meta.env.API_URL !== 'undefined' ? import.meta.env.API_URL : _API_URL;
+        // eslint-disable-next-line no-console
+        return import.meta.env.VITE_API;
     }
 
     static get prefix(): string {
