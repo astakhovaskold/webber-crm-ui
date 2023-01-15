@@ -1,0 +1,114 @@
+kind: pipeline
+name: UI
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+  - name: restore-cache
+    image: drillster/drone-volume-cache
+    settings:
+      restore: true
+      mount:
+        - .eslintcache
+        - ./node_modules
+    volumes:
+    - name: cache
+      path: /cache
+
+  - name: install
+    image: node:18.9.0-alpine
+    commands:
+      - npm i -g pnpm@7.11.0
+      - pnpm -v
+      - pnpm i --frozen-lockfile --unsafe-perm
+    depends_on:
+    - restore-cache
+
+  - name: lint
+    image: node:18.9.0-alpine
+    commands:
+      - npm i -g pnpm@7.11.0
+      - pnpm lint
+    when:
+      branch:
+        exclude:
+        - develop
+        - release/*
+    depends_on:
+    - install
+
+  - name: rebuild-cache-lint
+    image: drillster/drone-volume-cache
+    settings:
+      rebuild: true
+      mount:
+        - .eslintcache
+    volumes:
+      - name: cache
+        path: /cache
+    when:
+      branch:
+        exclude:
+        - develop
+        - release/*
+    depends_on:
+    - lint
+
+  - name: build
+    image: node:18.9.0-alpine
+    commands:
+      - npm i -g pnpm@7.11.0
+      - pnpm build
+    when:
+      branch:
+        include:
+        - develop
+        - release/*
+    depends_on:
+    - install
+
+  - name: rebuild-cache
+    image: drillster/drone-volume-cache
+    settings:
+      rebuild: true
+      mount:
+        - ./node_modules
+    volumes:
+    - name: cache
+      path: /cache
+    when:
+      branch:
+      - develop
+    depends_on:
+    - build
+
+  - name: publish
+    image: plugins/docker
+    settings:
+      registry: nexus.element-soft.com
+      repo: nexus.element-soft.com/proteus/rrk-dev-ui
+      target: rrk-ui
+      auto_tag: false
+      auto_tag_suffix: ${DRONE_COMMIT_BRANCH//\//-}
+      force_tag: true
+      username:
+        from_secret: nexus_docker_user
+      password:
+        from_secret: nexus_password
+      tags:
+        - ${DRONE_COMMIT_BRANCH//\//-}
+    when:
+      branch:
+        include:
+        - develop
+        - release/*
+    depends_on:
+    - lint
+    - build
+
+volumes:
+  - name: cache
+    host:
+      path: /tmp
