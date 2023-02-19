@@ -25,6 +25,14 @@ const Number = styled(InputNumber)`
     width: 100%;
 `;
 
+const getCustomerURL = (url: string) => {
+  try {
+    return new URL(url).hostname;
+  } catch {
+    return url;
+  }
+}
+
 const FormTask: FC = memo((): JSX.Element | null => {
     const [visible, setVisible] = useState(false);
     const {item} = useContext(Context);
@@ -151,8 +159,8 @@ const FormTask: FC = memo((): JSX.Element | null => {
                                                     disabled={!res}
                                                     loading={!res}
                                                     options={res?.projects?.map(p => ({
-                                                        value: p,
-                                                        label: new URL(p).hostname,
+                                                      value: p,
+                                                      label: getCustomerURL(p),
                                                     }))}
                                                 />
                                             </Item>
