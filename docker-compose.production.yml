@@ -1,0 +1,15 @@
+version: "3.9"
+# you can run multiple services inside one docker compose file
+# define them with their dependencies one after the other
+services:
+  webber-crm-ui-prod:
+    container_name: webber-crm-ui-prod
+    build:
+      context: .
+      # the dockerfile to be run
+      dockerfile: ./dockerfiles/production/Dockerfile
+        # map the exposed port from the underlying service to a port exposed to the outside
+        # in this case  map port 80 exposed by nginx to port 3000 on the outside
+        # to be used to access the container from the outside
+    ports:
+      - "3000:80"

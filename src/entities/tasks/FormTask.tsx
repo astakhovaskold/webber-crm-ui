@@ -25,6 +25,14 @@ const Number = styled(InputNumber)`
     width: 100%;
 `;
 
+const getCustomerURL = (url: string) => {
+  try {
+    return new URL(url).hostname;
+  } catch {
+    return url;
+  }
+}
+
 const FormTask: FC = memo((): JSX.Element | null => {
     const [visible, setVisible] = useState(false);
     const {item} = useContext(Context);
@@ -97,7 +105,7 @@ const FormTask: FC = memo((): JSX.Element | null => {
                         Сохранить
                     </Button>
                 }
-                title="Новая задача"
+                title={isCreate ? 'Новая задача' : 'Изменить задачу'}
             >
                 <Form name="formTask" colon={false} layout="vertical" initialValues={initialValues} onFinish={save}>
                     <Item name="title" label="Название задачи" rules={[{required: true}, {type: 'string', max: 64}]}>
@@ -151,8 +159,8 @@ const FormTask: FC = memo((): JSX.Element | null => {
                                                     disabled={!res}
                                                     loading={!res}
                                                     options={res?.projects?.map(p => ({
-                                                        value: p,
-                                                        label: new URL(p).hostname,
+                                                      value: p,
+                                                      label: getCustomerURL(p),
                                                     }))}
                                                 />
                                             </Item>

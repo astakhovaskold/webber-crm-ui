@@ -1,4 +1,2 @@
-node_modules
-**/dist/**
-*.config.js
-config-overrides.js
+/node_modules
+vite.config.ts

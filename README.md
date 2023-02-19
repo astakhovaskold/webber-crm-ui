@@ -44,3 +44,14 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+## Using Docker
+
+In the project directory, for development you can run:
+
+1. ### `docker-compose build`
+2. ### `docker-compose up`
+
+For production, you can run:
+
+### `docker-compose -f docker-compose.production.yml up`

@@ -1,0 +1,206 @@
+{
+    "root": true,
+    "env": {
+        "browser": true,
+        "node": true
+    },
+    "parser": "@typescript-eslint/parser",
+    "extends": [
+        "prettier",
+        "airbnb-typescript",
+        "plugin:import/errors",
+        "plugin:import/typescript",
+        "plugin:react/recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:prettier/recommended",
+        "plugin:jsx-a11y/recommended"
+    ],
+    "plugins": [
+        "react",
+        "react-hooks",
+        "import",
+        "@typescript-eslint",
+        "jsx-a11y"
+    ],
+    "parserOptions": {
+        "ecmaVersion": 2022,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "project": "./tsconfig.json"
+    },
+    "rules": {
+        "@typescript-eslint/default-param-last": [
+            1
+        ],
+        "@typescript-eslint/no-redeclare": [
+            2
+        ],
+        "@typescript-eslint/object-curly-spacing": [
+            2,
+            "never"
+        ],
+        "@typescript-eslint/no-shadow": [
+            1
+        ],
+        "@typescript-eslint/ban-ts-comment": [
+            1
+        ],
+        "@typescript-eslint/naming-convention": [
+            1
+        ],
+        "@typescript-eslint/no-unused-vars": [
+            2
+        ],
+        "@typescript-eslint/no-explicit-any": [
+            2
+        ],
+        "@typescript-eslint/array-type": [
+            2,
+            {
+                "default": "generic"
+            }
+        ],
+        "@typescript-eslint/no-namespace": [
+            1
+        ],
+        "import/order": [
+            2,
+            {
+                "alphabetize": {
+                    "order": "asc",
+                    "caseInsensitive": true
+                },
+                "newlines-between": "always-and-inside-groups"
+            }
+        ],
+        "no-restricted-imports": [
+            "error",
+            {
+                "paths": [
+                    {
+                        "name": "react",
+                        "importNames": [
+                            "default"
+                        ],
+                        "message": "Dont use 'import React from \"react\"'."
+                    }
+                ]
+            }
+        ],
+        "import/named": [
+            1
+        ],
+        "import/no-unresolved": [
+            2
+        ],
+        "import/prefer-default-export": [
+            1
+        ],
+        "import/extensions": [
+            0
+        ],
+        "import/no-cycle": [
+            1
+        ],
+        "react/react-in-jsx-scope": [
+            0
+        ],
+        "react/jsx-indent": [
+            0
+        ],
+        "react/jsx-indent-props": [
+            0
+        ],
+        "react/jsx-props-no-spreading": [
+            2,
+            {
+                "html": "enforce",
+                "custom": "ignore"
+            }
+        ],
+        "react/jsx-curly-newline": [
+            0
+        ],
+        "react/jsx-one-expression-per-line": [
+            1
+        ],
+        "react/jsx-wrap-multilines": [
+            1
+        ],
+        "react/jsx-fragments": [
+            0
+        ],
+        "react/jsx-tag-spacing": [
+            1,
+            {
+                "beforeSelfClosing": "always"
+            }
+        ],
+        "react/display-name": [
+            0
+        ],
+        "react/prop-types": [
+            0
+        ],
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "error",
+        "no-multiple-empty-lines": [
+            2,
+            {
+                "max": 1
+            }
+        ],
+        "max-lines": [
+            1,
+            {
+                "max": 300
+            }
+        ],
+        "no-console": [
+            2
+        ],
+        "no-bitwise": [
+            0
+        ],
+        "default-case": [
+            0
+        ],
+        "no-param-reassign": [
+            1
+        ],
+        "no-nested-ternary": [
+            1
+        ],
+        "consistent-return": [
+            1
+        ],
+        "require-yield": [
+            1
+        ],
+        "prefer-object-spread": [
+            1
+        ],
+        "no-underscore-dangle": [
+            0
+        ],
+        "no-plusplus": [
+            0
+        ],
+        "no-await-in-loop": [
+            1
+        ],
+        "no-async-promise-executor": [
+            1
+        ],
+        "radix": [
+            1
+        ]
+    },
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    }
+}

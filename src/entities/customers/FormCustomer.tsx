@@ -36,12 +36,12 @@ const FormCustomer: FC = memo((): JSX.Element | null => {
             validator(_, value: Array<string>) {
                 return new Promise((resolve, reject) => {
                     try {
-                        const result = value.every(v => new URL(v));
+                        const result = value.every(v => (v.includes('http') ? new URL(v) : true));
 
                         if (result) {
                             resolve('');
                         } else {
-                            reject(new Error('Вводите только корректные URL-адреса'));
+                            reject(new Error('Вводите только URL-адреса или название проекта'));
                         }
                     } catch (e) {
                         reject(new Error('Вводите только корректные URL-адреса'));
@@ -108,14 +108,14 @@ const FormCustomer: FC = memo((): JSX.Element | null => {
                         Сохранить
                     </Button>
                 }
-                title="Новый клиент"
+                title={isCreate ? 'Новый клиент' : 'Изменить клиента'}
             >
                 <Form name="formCustomer" colon={false} layout="vertical" initialValues={initialValues} onFinish={save}>
                     <Item name="name" label="Наименование" rules={[{required: true}, {type: 'string', max: 64}]}>
                         <Input autoComplete="name" />
                     </Item>
 
-                    <Item name="price" label="Цена" rules={[{required: true}, {type: 'number', min: 0}]}>
+                    <Item name="price" label="Цена (руб./ч)" rules={[{required: true}, {type: 'number', min: 0}]}>
                         <Number step={0.25} min={0} />
                     </Item>
 
