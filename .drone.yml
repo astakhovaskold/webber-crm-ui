@@ -1,5 +1,6 @@
 kind: pipeline
-name: UI
+name: default
+type: docker
 
 platform:
   os: linux
@@ -14,30 +15,28 @@ steps:
         - .eslintcache
         - ./node_modules
     volumes:
-    - name: cache
-      path: /cache
+      - name: cache
+        path: /cache
 
   - name: install
-    image: node:18.9.0-alpine
+    image: node:18.14.0-alpine
     commands:
-      - npm i -g pnpm@7.11.0
-      - pnpm -v
-      - pnpm i --frozen-lockfile --unsafe-perm
+      - yarn -v
+      - yarn install --frozen-lockfile
     depends_on:
-    - restore-cache
+      - restore-cache
 
   - name: lint
-    image: node:18.9.0-alpine
+    image: node:18.14.0-alpine
     commands:
-      - npm i -g pnpm@7.11.0
-      - pnpm lint
+      - yarn lint
     when:
       branch:
         exclude:
-        - develop
-        - release/*
+          - develop
+          - master
     depends_on:
-    - install
+      - install
 
   - name: rebuild-cache-lint
     image: drillster/drone-volume-cache
@@ -51,62 +50,66 @@ steps:
     when:
       branch:
         exclude:
-        - develop
-        - release/*
+          - develop
+          - master
     depends_on:
-    - lint
-
-  - name: build
-    image: node:18.9.0-alpine
-    commands:
-      - npm i -g pnpm@7.11.0
-      - pnpm build
-    when:
-      branch:
-        include:
-        - develop
-        - release/*
-    depends_on:
-    - install
-
-  - name: rebuild-cache
-    image: drillster/drone-volume-cache
-    settings:
-      rebuild: true
-      mount:
-        - ./node_modules
-    volumes:
-    - name: cache
-      path: /cache
-    when:
-      branch:
-      - develop
-    depends_on:
-    - build
+      - lint
 
   - name: publish
     image: plugins/docker
     settings:
-      registry: nexus.element-soft.com
-      repo: nexus.element-soft.com/proteus/rrk-dev-ui
-      target: rrk-ui
+      repo: astakhovaskold/webber-crm-ui
       auto_tag: false
       auto_tag_suffix: ${DRONE_COMMIT_BRANCH//\//-}
       force_tag: true
       username:
-        from_secret: nexus_docker_user
+        from_secret: DOCKER_USERNAME
       password:
-        from_secret: nexus_password
+        from_secret: DOCKER_PASSWORD
       tags:
         - ${DRONE_COMMIT_BRANCH//\//-}
     when:
       branch:
         include:
-        - develop
-        - release/*
+          - develop
+          - master
     depends_on:
-    - lint
-    - build
+      - lint
+
+  - name: notification
+    image: appleboy/drone-telegram
+    settings:
+      token:
+        from_secret: TELEGRAM_TOKEN
+      to:
+        from_secret: TELEGRAM_USER_ID
+    when:
+      status: [ success, failure ]
+    format: markdown
+    message: >
+      {{#success build.status}}
+      ✅ Build #{{build.number}} of `{{repo.name}}` succeeded.
+      
+      📝 Commit by {{commit.author}} on `{{commit.branch}}`:
+      
+      ```
+      {{commit.message}}
+      ```
+      
+      🌐 {{ build.link }}
+      {{else}}
+      ❌ Build #{{build.number}} of `{{repo.name}}` failed.
+      
+      📝 Commit by {{commit.author}} on `{{commit.branch}}`:
+      
+      ```
+      {{commit.message}}
+      ```
+      
+      🌐 {{ build.link }}
+      {{/success}}
+    depends_on:
+      - publish
 
 volumes:
   - name: cache
