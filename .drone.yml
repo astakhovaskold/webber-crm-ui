@@ -59,6 +59,7 @@ steps:
     image: plugins/docker
     settings:
       repo: astakhovaskold/webber-crm-ui
+      platform: linux/amd64
       auto_tag: false
       auto_tag_suffix: ${DRONE_COMMIT_BRANCH//\//-}
       force_tag: true
